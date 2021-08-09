@@ -1,0 +1,82 @@
+{
+  "allowHttpBackend": false,
+  "backendCommand": "",
+  "backendFolderName": "",
+  "certificateExceptions": [],
+  "extensionViews": [
+    {
+      "channelId": "265737932",
+      "configurationAnchor": "video_overlay",
+      "displayChannelName": "moxpaperweight",
+      "features": {
+        "isBitsEnabled": false,
+        "isChatEnabled": false,
+        "isSubscriptionStatusAvailable": false
+      },
+      "frameSize": {
+        "width": 1024,
+        "height": 576
+      },
+      "id": "1",
+      "isPopout": false,
+      "label": "mox",
+      "linked": false,
+      "linkedUserId": "",
+      "orientation": "Portrait",
+      "type": "video_overlay",
+      "viewerType": "Logged-In Viewer"
+    }
+  ],
+  "manifest": {
+    "anchor": "video_overlay",
+    "assetUrls": [],
+    "authorName": "MoxPaperweight",
+    "bitsEnabled": false,
+    "canInstall": true,
+    "configUrl": "https://localhost:8080/config.html",
+    "configurationLocation": "none",
+    "description": "",
+    "eulaTosUrl": "",
+    "hasChatSupport": false,
+    "iconUrl": "",
+    "iconUrls": {},
+    "id": "mj9tgol7dzh2sdda40o12f0p6pz5re",
+    "installationCount": -42,
+    "liveConfigUrl": "",
+    "name": "PaperweightClocktower",
+    "panelHeight": 0,
+    "privacyPolicyUrl": "",
+    "requestIdentityLink": false,
+    "requiredBroadcasterAbilities": [],
+    "screenshotUrls": [],
+    "sku": "",
+    "state": "Testing",
+    "subscriptionsSupportLevel": "none",
+    "summary": "",
+    "supportEmail": "ezraskolnik@gmail.com",
+    "vendorCode": "",
+    "version": "0.0.1",
+    "viewerSummary": "",
+    "viewerUrl": "",
+    "viewerUrls": {
+      "videoOverlay": "https://localhost:8080/video_overlay.html"
+    },
+    "views": {
+      "videoOverlay": {
+        "viewerUrl": "https://localhost:8080/video_overlay.html",
+        "canLinkExternalContent": false
+      },
+      "config": {
+        "viewerUrl": "https://localhost:8080/config.html",
+        "canLinkExternalContent": false
+      }
+    },
+    "whitelistedConfigUrls": [],
+    "whitelistedPanelUrls": []
+  },
+  "frontendCommand": "",
+  "frontendFolderName": "/Users/eskolnik/code/twitch/PaperweightPlayground/v1",
+  "name": "PaperweightClocktower",
+  "usingRandomFrontendHostingPort": false,
+  "version": 3
+}
