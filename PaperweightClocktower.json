@@ -25,6 +25,28 @@
       "orientation": "Portrait",
       "type": "video_overlay",
       "viewerType": "Logged-In Viewer"
+    },
+    {
+      "channelId": "265737932",
+      "configurationAnchor": "video_overlay",
+      "displayChannelName": "moxpaperweight",
+      "features": {
+        "isBitsEnabled": false,
+        "isChatEnabled": false,
+        "isSubscriptionStatusAvailable": false
+      },
+      "frameSize": {
+        "width": 1280,
+        "height": 720
+      },
+      "id": "2",
+      "isPopout": false,
+      "label": "Config",
+      "linked": true,
+      "linkedUserId": "265737932",
+      "orientation": "Portrait",
+      "type": "config",
+      "viewerType": "Broadcaster"
     }
   ],
   "manifest": {

@@ -1,5 +1,17 @@
 // Control overlay position and role content
 
+const MAX_TOKEN_SIZE = 17
+const MIN_TOKEN_SIZE = 8;
+
+const MAX_RADIUS = 400;
+const MIN_RADIUS = 100;
+const RADIUS_INCREMENT = 10;
+
+const WINDOW_MAX = 100;
+
+const MOON_CLASS = "clockToken";
+
+
 let state = {
     players: 12,
     radius: 210,
@@ -8,14 +20,69 @@ let state = {
     tokenSize: 10
 }
 
-const MAX_TOKEN_SIZE = 17
-const MIN_TOKEN_SIZE = 8;
+function validateConfig(config) {
+    if(typeof config.players !== 'number' || config.players < 0) {
+        return false
+    }
 
-const MAX_RADIUS = 400;
-const MIN_RADIUS = 100;
-const RADIUS_INCREMENT = 10;
+    if(typeof config.radius !== 'number' || config.radius < MIN_RADIUS || config.radius > MAX_RADIUS) { 
+        return false;
+    }
 
-const MOON_CLASS = "clockToken";
+    if(typeof config.tokenSize !== 'number' || config.tokenSize < MIN_TOKEN_SIZE || config.tokenSize > MAX_TOKEN_SIZE) {
+        return false;
+    }
+
+    if(typeof config.x !== 'number' || config.x < 0 || config.x > WINDOW_MAX) { 
+        return false;
+    }
+
+    if(typeof config.y !== 'number' || config.y < 0 || config.y > WINDOW_MAX) { 
+        return false;
+    }
+    return true;
+}
+
+const twitch = window.Twitch.ext;
+
+// Overwrite options with twitch config if present
+if(twitch.configuration.broadcaster) {
+    try {
+        let config = JSON.parse(twitch.configuration.broadcaster.content);
+
+        if(typeof config === 'object' && validateConfig(config)) {
+            // overwrite default state with config from twitch
+            state = config;
+        } else {
+            console.log('Invalid Config')
+        }
+    } catch (err) {
+        console.log('Invalid Config')
+    }
+}
+
+/**
+ * Update values on change
+ */
+twitch.configuration.onChanged(() => {
+    if(twitch.configuration.broadcaster) {
+        try {
+            let config = JSON.parse(twitch.configuration.broadcaster.content);
+    
+            if(typeof config === 'object' && validateConfig(config)) {
+                // overwrite default state with config from twitch
+                state = config;
+                moveCenter();
+                destroyOverlay();
+                createOverlay();
+            } else {
+                console.log('Invalid Config')
+            }
+        } catch (err) {
+            console.log('Invalid Config')
+        }
+    }
+})
 
 // Core positioning logic
 function createOverlay() {
@@ -40,77 +107,81 @@ function moveCenter() {
 
 }
 
-function handleClickUp () {
-    state.y = state.y <= 0 ? 0 : state.y - 1;
-    moveCenter(state.x, state.y)
-}
-document.getElementById("button-up").addEventListener("click", handleClickUp)
+// function handleClickUp () {
+//     state.y = state.y <= 0 ? 0 : state.y - 1;
+//     moveCenter(state.x, state.y)
+// }
+// document.getElementById("button-up").addEventListener("click", handleClickUp)
 
-function handleClickDown () {
-    state.y += 1;
-    moveCenter(state.x, state.y)
-}
-document.getElementById("button-down").addEventListener("click", handleClickDown)
+// function handleClickDown () {
+//     state.y += 1;
+//     moveCenter(state.x, state.y)
+// }
+// document.getElementById("button-down").addEventListener("click", handleClickDown)
 
-function handleClickLeft () {
-    state.x = state.x <= 0 ? 0 : state.x - 1;
-    moveCenter(state.x, state.y)
-}
-document.getElementById("button-left").addEventListener("click", handleClickLeft)
+// function handleClickLeft () {
+//     state.x = state.x <= 0 ? 0 : state.x - 1;
+//     moveCenter(state.x, state.y)
+// }
+// document.getElementById("button-left").addEventListener("click", handleClickLeft)
 
-function handleClickRight () {
-    state.x += 1;
-    moveCenter(state.x, state.y)
-}
-document.getElementById("button-right").addEventListener("click", handleClickRight)
+// function handleClickRight () {
+//     state.x += 1;
+//     moveCenter(state.x, state.y)
+// }
+// document.getElementById("button-right").addEventListener("click", handleClickRight)
 
 
-function handleAddPlayer() {
-    state.players +=1;
-    destroyOverlay();
-    createOverlay(state.players, state.radius)
-}
-document.getElementById("button-add").addEventListener("click", handleAddPlayer)
+// function handleAddPlayer() {
+//     state.players +=1;
+//     destroyOverlay();
+//     createOverlay(state.players, state.radius)
+// }
+// document.getElementById("button-add").addEventListener("click", handleAddPlayer)
 
-function handleRemovePlayer() {
-    state.players = state.players <= 0 ? 0 : state.players -1;
+// function handleRemovePlayer() {
+//     state.players = state.players <= 0 ? 0 : state.players -1;
 
-    destroyOverlay();
-    createOverlay(state.players, state.radius)
-}
-document.getElementById("button-remove").addEventListener("click", handleRemovePlayer)
+//     destroyOverlay();
+//     createOverlay(state.players, state.radius)
+// }
+// document.getElementById("button-remove").addEventListener("click", handleRemovePlayer)
 
-function handleBiggerToken() {
-    state.tokenSize = state.tokenSize >= MAX_TOKEN_SIZE ? MAX_TOKEN_SIZE : state.tokenSize + 1;
+// function handleBiggerToken() {
+//     state.tokenSize = state.tokenSize >= MAX_TOKEN_SIZE ? MAX_TOKEN_SIZE : state.tokenSize + 1;
 
-    destroyOverlay();
-    createOverlay(state.players, state.radius)
-}
-document.getElementById("button-bigger").addEventListener("click", handleBiggerToken)
+//     destroyOverlay();
+//     createOverlay(state.players, state.radius)
+// }
+// document.getElementById("button-bigger").addEventListener("click", handleBiggerToken)
 
-function handleSmallerToken() {
-    state.tokenSize = state.tokenSize <= MIN_TOKEN_SIZE ? MIN_TOKEN_SIZE : state.tokenSize - 1;
+// function handleSmallerToken() {
+//     state.tokenSize = state.tokenSize <= MIN_TOKEN_SIZE ? MIN_TOKEN_SIZE : state.tokenSize - 1;
 
-    destroyOverlay();
-    createOverlay(state.players, state.radius)
-}
-document.getElementById("button-smaller").addEventListener("click", handleSmallerToken)
+//     destroyOverlay();
+//     createOverlay(state.players, state.radius)
+// }
+// document.getElementById("button-smaller").addEventListener("click", handleSmallerToken)
 
-function handleIncreaseRadius() {
-    state.radius = state.radius >= MAX_RADIUS ? MAX_RADIUS : state.radius + RADIUS_INCREMENT;
+// function handleIncreaseRadius() {
+//     state.radius = state.radius >= MAX_RADIUS ? MAX_RADIUS : state.radius + RADIUS_INCREMENT;
 
-    destroyOverlay();
-    createOverlay(state.players, state.radius)
-}
-document.getElementById("button-expand").addEventListener("click", handleIncreaseRadius)
+//     destroyOverlay();
+//     createOverlay(state.players, state.radius)
+// }
+// document.getElementById("button-expand").addEventListener("click", handleIncreaseRadius)
 
-function handleDecreaseRadius() {
-    state.radius = state.radius <= MIN_RADIUS ? MIN_RADIUS : state.radius - RADIUS_INCREMENT;
+// function handleDecreaseRadius() {
+//     state.radius = state.radius <= MIN_RADIUS ? MIN_RADIUS : state.radius - RADIUS_INCREMENT;
 
-    destroyOverlay();
-    createOverlay(state.players, state.radius)
-}
-document.getElementById("button-contract").addEventListener("click", handleDecreaseRadius)
+//     destroyOverlay();
+//     createOverlay(state.players, state.radius)
+// }
+// document.getElementById("button-contract").addEventListener("click", handleDecreaseRadius)
+
+// // Handle saving settings
+// document.getElementById("button-save").addEventListener("click", updateConfig)
+
 
 // Setup initial overlay
 createOverlay(state.players, state.radius)
