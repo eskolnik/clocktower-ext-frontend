@@ -1,7 +1,32 @@
 body {
   background: rgba(255, 255, 255, 0);
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
+img.bg {
+  /* Set rules to fill background */
+  min-height: 100%;
+  min-width: 1024px;
+  /* Set up proportionate scaling */
+  width: 100%;
+  height: auto;
+  /* Set up positioning */
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+@media screen and (max-width: 1024px) {
+  /* Specific to this particular image */
+  img.bg {
+    left: 50%;
+    margin-left: -512px;
+    /* 50% */
+  }
+}
 .center {
   position: fixed;
   top: 50%;
@@ -9,19 +34,40 @@ body {
 }
 .center .reticle {
   position: relative;
-  top: -12px;
-  font-size: 40px;
-  color: gray;
+  color: magenta;
+  transform: scale(8);
 }
 
 .controls {
   position: fixed;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
   bottom: 0;
   right: 100;
-  width: min-content;
+  width: 300px;
   padding: 10px;
   border-radius: 10px;
   border: 2px solid gray;
+}
+
+.configControl-button {
+  margin: 2px;
+  flex: 0.4 0 40%;
+}
+.configControl-uploadButton {
+  padding: 2px;
+  text-align: center;
+  border-radius: 5%;
+  border: 1px solid black;
+  background-color: #bdbdbd;
+}
+.configControl-fileInput {
+  display: none;
+}
+.configControl-buttonSave {
+  background-color: red;
 }
 
 .clockToken {
@@ -80,6 +126,7 @@ body {
 }
 .clockToken .ability {
   visibility: visible;
+  color: white;
   opacity: 1;
   display: flex;
   position: absolute;

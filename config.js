@@ -168,6 +168,25 @@ function handleDecreaseRadius() {
 }
 document.getElementById("button-contract").addEventListener("click", handleDecreaseRadius)
 
+let reader = new FileReader();
+reader.addEventListener("load", event => {
+    const bg = document.getElementById("bg");
+    bg.src = reader.result;
+    // document.body.style.background = `url(${reader.result}) no-repeat center center fixed`
+})
+
+function handleSetBackground(e) {
+    var file = e.target.files[0];
+
+    if(file){
+        reader.readAsDataURL(file);
+    }else{
+    }
+}
+
+document.getElementById("button-background").addEventListener("input", handleSetBackground)
+
+
 // Handle saving settings
 document.getElementById("button-save").addEventListener("click", updateConfig)
 

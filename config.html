@@ -7,22 +7,30 @@
     <script src="/moonmap/moonMap.js"></script>
 </head>
 <body>
+    <img id="bg" class="bg">
     <div id="center" class="center orbit-center">
-        <span class="reticle">+</span>
+        <div class="reticle">+</div>
     </div>
     
     <div id="controls" class='controls'>
-        <button id="button-up" class="button">up</button>
-        <button id="button-down" class="button">down</button>
-        <button id="button-left" class="button">left</button>
-        <button id="button-right" class="button">right</button>
-        <button id="button-add" class="button">Add Player</button>
-        <button id="button-remove" class="button">Remove Player</button>
-        <button id="button-expand" class="button">Expand Circle</button>
-        <button id="button-contract" class="button">Contract Circle</button>
-        <button id="button-bigger" class="button">Bigger Tokens</button>
-        <button id="button-smaller" class="button">Smaller Tokens</button>
-        <button id="button-save" class="button">Save Config</button>
+        <button id="button-up" class="configControl-button">Up</button>
+        <button id="button-down" class="configControl-button">Down</button>
+        <button id="button-left" class="configControl-button">Left</button>
+        <button id="button-right" class="configControl-button">Right</button>
+        <button id="button-add" class="configControl-button">Add Player</button>
+        <button id="button-remove" class="configControl-button">Remove Player</button>
+        <button id="button-expand" class="configControl-button">Expand Circle</button>
+        <button id="button-contract" class="configControl-button">Contract Circle</button>
+        <button id="button-bigger" class="configControl-button">Bigger Tokens</button>
+        <button id="button-smaller" class="configControl-button">Smaller Tokens</button>
+        <label for="button-background" class="configControl-button configControl-uploadButton">
+            Upload Background Image
+        </label>
+        <input type="file"
+            class="configControl-fileInput"
+            id="button-background" name="background"
+            accept="image/png, image/jpeg">
+        <button id="button-save" class="configControl-button configControl-buttonSave">Save Config</button>
     </div>
     <script src="config.js"></script>
 </body>

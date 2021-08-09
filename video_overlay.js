@@ -1,5 +1,11 @@
 // Control overlay position and role content
 
+// TODO: Pull game state from live game
+// we can pull this from localStorage.players on the host
+
+// custom scripts can be parsed similarly from localStorage.edition
+// and in fact, maybe we should just do this for all scripts? meh
+
 const MAX_TOKEN_SIZE = 17
 const MIN_TOKEN_SIZE = 8;
 
@@ -107,83 +113,6 @@ function moveCenter() {
 
 }
 
-// function handleClickUp () {
-//     state.y = state.y <= 0 ? 0 : state.y - 1;
-//     moveCenter(state.x, state.y)
-// }
-// document.getElementById("button-up").addEventListener("click", handleClickUp)
-
-// function handleClickDown () {
-//     state.y += 1;
-//     moveCenter(state.x, state.y)
-// }
-// document.getElementById("button-down").addEventListener("click", handleClickDown)
-
-// function handleClickLeft () {
-//     state.x = state.x <= 0 ? 0 : state.x - 1;
-//     moveCenter(state.x, state.y)
-// }
-// document.getElementById("button-left").addEventListener("click", handleClickLeft)
-
-// function handleClickRight () {
-//     state.x += 1;
-//     moveCenter(state.x, state.y)
-// }
-// document.getElementById("button-right").addEventListener("click", handleClickRight)
-
-
-// function handleAddPlayer() {
-//     state.players +=1;
-//     destroyOverlay();
-//     createOverlay(state.players, state.radius)
-// }
-// document.getElementById("button-add").addEventListener("click", handleAddPlayer)
-
-// function handleRemovePlayer() {
-//     state.players = state.players <= 0 ? 0 : state.players -1;
-
-//     destroyOverlay();
-//     createOverlay(state.players, state.radius)
-// }
-// document.getElementById("button-remove").addEventListener("click", handleRemovePlayer)
-
-// function handleBiggerToken() {
-//     state.tokenSize = state.tokenSize >= MAX_TOKEN_SIZE ? MAX_TOKEN_SIZE : state.tokenSize + 1;
-
-//     destroyOverlay();
-//     createOverlay(state.players, state.radius)
-// }
-// document.getElementById("button-bigger").addEventListener("click", handleBiggerToken)
-
-// function handleSmallerToken() {
-//     state.tokenSize = state.tokenSize <= MIN_TOKEN_SIZE ? MIN_TOKEN_SIZE : state.tokenSize - 1;
-
-//     destroyOverlay();
-//     createOverlay(state.players, state.radius)
-// }
-// document.getElementById("button-smaller").addEventListener("click", handleSmallerToken)
-
-// function handleIncreaseRadius() {
-//     state.radius = state.radius >= MAX_RADIUS ? MAX_RADIUS : state.radius + RADIUS_INCREMENT;
-
-//     destroyOverlay();
-//     createOverlay(state.players, state.radius)
-// }
-// document.getElementById("button-expand").addEventListener("click", handleIncreaseRadius)
-
-// function handleDecreaseRadius() {
-//     state.radius = state.radius <= MIN_RADIUS ? MIN_RADIUS : state.radius - RADIUS_INCREMENT;
-
-//     destroyOverlay();
-//     createOverlay(state.players, state.radius)
-// }
-// document.getElementById("button-contract").addEventListener("click", handleDecreaseRadius)
-
-// // Handle saving settings
-// document.getElementById("button-save").addEventListener("click", updateConfig)
-
-
-// Setup initial overlay
 createOverlay(state.players, state.radius)
 
 
