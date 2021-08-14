@@ -1,0 +1,14 @@
+{
+  "name": "paperweight-clocktower",
+  "version": "0.0.1",
+  "description": "clocktower twitch ext",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "ezraskolnik@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "eslint": "^7.32.0"
+  }
+}

@@ -5,29 +5,7 @@
   "certificateExceptions": [],
   "extensionViews": [
     {
-      "channelId": "265737932",
-      "configurationAnchor": "video_overlay",
-      "displayChannelName": "moxpaperweight",
-      "features": {
-        "isBitsEnabled": false,
-        "isChatEnabled": false,
-        "isSubscriptionStatusAvailable": false
-      },
-      "frameSize": {
-        "width": 1024,
-        "height": 576
-      },
-      "id": "1",
-      "isPopout": false,
-      "label": "mox",
-      "linked": false,
-      "linkedUserId": "",
-      "orientation": "Portrait",
-      "type": "video_overlay",
-      "viewerType": "Logged-In Viewer"
-    },
-    {
-      "channelId": "265737932",
+      "channelId": "58040874",
       "configurationAnchor": "video_overlay",
       "displayChannelName": "moxpaperweight",
       "features": {
@@ -39,14 +17,36 @@
         "width": 1280,
         "height": 720
       },
-      "id": "2",
+      "id": "3",
       "isPopout": false,
-      "label": "Config",
+      "label": "",
       "linked": true,
       "linkedUserId": "265737932",
       "orientation": "Portrait",
       "type": "config",
       "viewerType": "Broadcaster"
+    },
+    {
+      "channelId": "58040874",
+      "configurationAnchor": "video_overlay",
+      "displayChannelName": "moxpaperweight",
+      "features": {
+        "isBitsEnabled": false,
+        "isChatEnabled": false,
+        "isSubscriptionStatusAvailable": false
+      },
+      "frameSize": {
+        "width": 1280,
+        "height": 720
+      },
+      "id": "4",
+      "isPopout": false,
+      "label": "viewer overlay",
+      "linked": false,
+      "linkedUserId": "",
+      "orientation": "Portrait",
+      "type": "video_overlay",
+      "viewerType": "Logged-In Viewer"
     }
   ],
   "manifest": {
@@ -55,8 +55,8 @@
     "authorName": "MoxPaperweight",
     "bitsEnabled": false,
     "canInstall": true,
-    "configUrl": "https://localhost:8080/config.html",
-    "configurationLocation": "none",
+    "configUrl": "http://localhost:8080/config.html",
+    "configurationLocation": "hosted",
     "description": "",
     "eulaTosUrl": "",
     "hasChatSupport": false,
@@ -81,15 +81,15 @@
     "viewerSummary": "",
     "viewerUrl": "",
     "viewerUrls": {
-      "videoOverlay": "https://localhost:8080/video_overlay.html"
+      "videoOverlay": "http://localhost:8080/video_overlay.html"
     },
     "views": {
       "videoOverlay": {
-        "viewerUrl": "https://localhost:8080/video_overlay.html",
+        "viewerUrl": "http://localhost:8080/video_overlay.html",
         "canLinkExternalContent": false
       },
       "config": {
-        "viewerUrl": "https://localhost:8080/config.html",
+        "viewerUrl": "http://localhost:8080/config.html",
         "canLinkExternalContent": false
       }
     },
