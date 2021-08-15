@@ -1,3 +1,5 @@
+@import "viewer";
+
 body {
   background: rgba(255, 255, 255, 1);
   // background: url(/images/pokemon.png) no-repeat center center fixed;
@@ -8,19 +10,10 @@ body {
   background-size: cover;
 }
 
-#streambg {
-  position: absolute;
-  float: left;
-  clear: both;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-}
-
 img.bg {
   /* Set rules to fill background */
-  min-height: 100%;
-  min-width: 1024px;
+  // min-height: 100%;
+  // min-width: 1024px;
 
   /* Set up proportionate scaling */
   width: 100%;
@@ -89,99 +82,6 @@ img.bg {
   }
 }
 
-.clockToken {
-  border-radius: 50%;
-  position: absolute;
-  margin: 0px;
-  padding: 0px;
-  line-height: 43px;
-  /* border:1px solid #ccc; */
+.clockToken {  
   background: rgba(21, 179, 87, 0.253);
-  // background: rgba(255, 255, 255, 0.0);
-  z-index: 1;
-
-  &-8 {
-    width: 8vh;
-    height: 8vh;
-  }
-  &-9 {
-    width: 9vh;
-    height: 9vh;
-  }
-  &-10 {
-    width: 10vh;
-    height: 10vh;
-  }
-  &-11 {
-    width: 11vh;
-    height: 11vh;
-  }
-  &-12 {
-    width: 12vh;
-    height: 12vh;
-  }
-  &-13 {
-    width: 13vh;
-    height: 13vh;
-  }
-  &-13 {
-    width: 13vh;
-    height: 13vh;
-  }
-  &-14 {
-    width: 14vh;
-    height: 14vh;
-  }
-  &-15 {
-    width: 15vh;
-    height: 15vh;
-  }
-  &-16 {
-    width: 16vh;
-    height: 16vh;
-  }
-  &-17 {
-    width: 17vh;
-    height: 17vh;
-  }
-
-  .ability {
-    visibility: visible;
-    color: white;
-    font-family: 'Roboto Condensed', sans-serif;
-    font-size: large;
-    opacity: 1;
-    display: flex;
-    position: absolute;
-    padding: 5px 10px;
-    left: 120%;
-    width: 250px;
-    z-index: 25;
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
-    border: 3px solid black;
-    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5));
-    text-align: left;
-    justify-items: center;
-    align-content: center;
-    align-items: center;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 200ms ease-in-out;
-
-    &:before {
-      content: " ";
-      border: 10px solid transparent;
-      width: 0;
-      height: 0;
-      border-right-color: black;
-      position: absolute;
-      margin-right: 2px;
-      right: 100%;
-    }
-  }
-
-  &:hover .ability {
-    opacity: 1;
-  }
 }

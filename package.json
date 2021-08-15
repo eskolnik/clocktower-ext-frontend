@@ -3,9 +3,12 @@
   "version": "0.0.1",
   "description": "clocktower twitch ext",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "start": "http-server"
   },
+  "proxy": "http://localhost:3000",
   "author": "ezraskolnik@gmail.com",
   "license": "ISC",
   "dependencies": {

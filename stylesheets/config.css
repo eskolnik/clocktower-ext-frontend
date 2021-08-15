@@ -1,3 +1,99 @@
+.center {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+}
+
+.clockToken {
+  border-radius: 50%;
+  position: absolute;
+  margin: 0px;
+  padding: 0px;
+  line-height: 43px;
+  /* border:1px solid #ccc; */
+  z-index: 1;
+}
+.clockToken-8 {
+  width: 8vh;
+  height: 8vh;
+}
+.clockToken-9 {
+  width: 9vh;
+  height: 9vh;
+}
+.clockToken-10 {
+  width: 10vh;
+  height: 10vh;
+}
+.clockToken-11 {
+  width: 11vh;
+  height: 11vh;
+}
+.clockToken-12 {
+  width: 12vh;
+  height: 12vh;
+}
+.clockToken-13 {
+  width: 13vh;
+  height: 13vh;
+}
+.clockToken-13 {
+  width: 13vh;
+  height: 13vh;
+}
+.clockToken-14 {
+  width: 14vh;
+  height: 14vh;
+}
+.clockToken-15 {
+  width: 15vh;
+  height: 15vh;
+}
+.clockToken-16 {
+  width: 16vh;
+  height: 16vh;
+}
+.clockToken-17 {
+  width: 17vh;
+  height: 17vh;
+}
+.clockToken .ability {
+  align-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  border: 3px solid black;
+  color: white;
+  display: flex;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5));
+  font-family: "Roboto Condensed", sans-serif;
+  font-size: large;
+  justify-items: center;
+  left: 120%;
+  opacity: 0;
+  padding: 5px 10px;
+  pointer-events: none;
+  position: absolute;
+  text-align: left;
+  transition: opacity 200ms ease-in-out;
+  visibility: visible;
+  width: 250px;
+  z-index: 25;
+}
+.clockToken .ability:before {
+  content: " ";
+  border: 10px solid transparent;
+  width: 0;
+  height: 0;
+  border-right-color: black;
+  position: absolute;
+  margin-right: 2px;
+  right: 100%;
+}
+.clockToken:hover .ability {
+  opacity: 1;
+}
+
 body {
   background: white;
   -webkit-background-size: cover;
@@ -6,19 +102,8 @@ body {
   background-size: cover;
 }
 
-#streambg {
-  position: absolute;
-  float: left;
-  clear: both;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-}
-
 img.bg {
   /* Set rules to fill background */
-  min-height: 100%;
-  min-width: 1024px;
   /* Set up proportionate scaling */
   width: 100%;
   height: auto;
@@ -80,95 +165,7 @@ img.bg {
 }
 
 .clockToken {
-  border-radius: 50%;
-  position: absolute;
-  margin: 0px;
-  padding: 0px;
-  line-height: 43px;
-  /* border:1px solid #ccc; */
   background: rgba(21, 179, 87, 0.253);
-  z-index: 1;
-}
-.clockToken-8 {
-  width: 8vh;
-  height: 8vh;
-}
-.clockToken-9 {
-  width: 9vh;
-  height: 9vh;
-}
-.clockToken-10 {
-  width: 10vh;
-  height: 10vh;
-}
-.clockToken-11 {
-  width: 11vh;
-  height: 11vh;
-}
-.clockToken-12 {
-  width: 12vh;
-  height: 12vh;
-}
-.clockToken-13 {
-  width: 13vh;
-  height: 13vh;
-}
-.clockToken-13 {
-  width: 13vh;
-  height: 13vh;
-}
-.clockToken-14 {
-  width: 14vh;
-  height: 14vh;
-}
-.clockToken-15 {
-  width: 15vh;
-  height: 15vh;
-}
-.clockToken-16 {
-  width: 16vh;
-  height: 16vh;
-}
-.clockToken-17 {
-  width: 17vh;
-  height: 17vh;
-}
-.clockToken .ability {
-  visibility: visible;
-  color: white;
-  font-family: "Roboto Condensed", sans-serif;
-  font-size: large;
-  opacity: 1;
-  display: flex;
-  position: absolute;
-  padding: 5px 10px;
-  left: 120%;
-  width: 250px;
-  z-index: 25;
-  background: rgba(0, 0, 0, 0.5);
-  border-radius: 10px;
-  border: 3px solid black;
-  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5));
-  text-align: left;
-  justify-items: center;
-  align-content: center;
-  align-items: center;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 200ms ease-in-out;
-}
-.clockToken .ability:before {
-  content: " ";
-  border: 10px solid transparent;
-  width: 0;
-  height: 0;
-  border-right-color: black;
-  position: absolute;
-  margin-right: 2px;
-  right: 100%;
-}
-.clockToken:hover .ability {
-  opacity: 1;
 }
 
 /*# sourceMappingURL=config.css.map */

@@ -87,6 +87,7 @@ const updateStateFromConfig = (data) => {
 twitch.onAuthorized((auth) => {
     let { token, userId } = auth;
     log("Auth: ", auth);
+    log("initial config", twitch.configuration.broadcaster?.content);
 
     try {
         updateStateFromConfig(twitch.configuration.broadcaster.content);
@@ -103,13 +104,17 @@ twitch.onAuthorized((auth) => {
             updateStateFromConfig(twitch.configuration.broadcaster.content);
         }
     });
+
 });
+
 
 /**
  * Update the Twitch Config Service with the current values in state
  */
 function updateConfig() {
     twitch.configuration.set("broadcaster", "1", JSON.stringify(state));
+
+    twitch.send("broadcast", "application/json", {type: "config", settings: state});
 }
 
 // Core positioning logic
