@@ -10,7 +10,7 @@ const {
 
 let state = {
     config: {
-        radius: 140,
+        radius: 150,
         x: 50,
         y: 50,
         tokenSize: 14,
@@ -69,7 +69,8 @@ function createOverlay(players, radius, tokenSize, displayResolution) {
         tokenContainer.style.width = `${displayTokenSize}px`;
 
         const player = players[i];
-        tokenContainer.appendChild(createReminder(player));
+        const abilityNode = createAbilityReminder(player);
+        tokenContainer.appendChild(abilityNode);
 
         centerNode.appendChild(tokenContainer);
     }
@@ -82,8 +83,7 @@ function destroyOverlay() {
 
 function moveCenter(x, y) {
     const center = document.getElementById("center");
-    center.style.top = `${y}%`;
-    center.style.left = `${x}%`;
+    center.style.transform = `translate(${x}%, ${y}%)`;
 }
 
 /**
@@ -92,19 +92,22 @@ function moveCenter(x, y) {
  * @param {Object} player the player object to create a reminder token for 
  * @returns {Element} ability node
  */
-function createReminder(player) {
-    const abilityNode = document.createElement("div");
-    abilityNode.className = ABILITY_CLASSNAME;
+function createAbilityReminder(player) {
     
     if(!player) {
-        abilityNode.innerHTML = "PLAYER MISSING";
-    } else {
-        const role = player.role;
-    
-        const reminderText = getRoleReminder(role);
-        abilityNode.innerHTML = reminderText;
+        return null;
+    }
+    const role = player.role;
+    const reminderText = getRoleAbility(role);
+
+    if(!reminderText) {
+        return null;
     }
 
+    const abilityNode = document.createElement("div");
+    abilityNode.className = ABILITY_CLASSNAME;
+    abilityNode.innerHTML = reminderText;
+    
     return abilityNode;
 }
 
@@ -114,10 +117,10 @@ function createReminder(player) {
  * @param {String} roleName 
  * @returns {String} Ability description
  */
-function getRoleReminder(roleName) {
+function getRoleAbility(roleName) {
     const role = baseRoles.find(r => r.id === roleName);
     if (!role) {
-        return "Unknown Ability";
+        return false;
     }
     return role.ability;
 }
@@ -149,7 +152,13 @@ function handleReceiveConfigUpdate (newConfig) {
 }
 
 function updateConfigState(config) {
-    const nextConfig = {...state.config, ...config};
+    const {x, y, tokenSize, radius} = config;
+
+    let nextConfig = {...state.config};
+    nextConfig.x = x || nextConfig.x;
+    nextConfig.y = y || nextConfig.y;
+    nextConfig.tokenSize = tokenSize || nextConfig.tokenSize;
+    nextConfig.radius = radius || nextConfig.radius;
 
     if(!validateConfig(nextConfig)) {
         console.log("Invalid Config", config);

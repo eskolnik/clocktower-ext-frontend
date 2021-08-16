@@ -1,9 +1,3 @@
-// Control overlay position and role content
-
-// TODO: try allowing the streamer to upload a screencap of their stream as a background image for alignment
-
-// import MoonMap from "./moonmap/moonMap";
-
 const MAX_TOKEN_SIZE = 17;
 const MIN_TOKEN_SIZE = 8;
 

@@ -1,12 +1,7 @@
 .center {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-}
-.center .reticle {
   position: relative;
-  color: magenta;
-  transform: scale(4);
+  width: 100%;
+  height: 100%;
 }
 
 .clockToken {
@@ -104,7 +99,7 @@ body {
 }
 
 .clockToken {
-  background: #0368ac;
+  background: rgba(255, 255, 255, 0);
 }
 
 /*# sourceMappingURL=video_overlay.css.map */

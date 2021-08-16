@@ -9,10 +9,6 @@ const {
 } = CONSTANTS;
 
 function validateConfig(config) {
-    if (typeof config.players !== "number" || config.players < 0) {
-        return false;
-    }
-
     if (
         typeof config.radius !== "number" ||
     config.radius < MIN_RADIUS ||

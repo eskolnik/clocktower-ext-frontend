@@ -1,12 +1,7 @@
 .center {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-}
-.center .reticle {
   position: relative;
-  color: magenta;
-  transform: scale(4);
+  width: 100%;
+  height: 100%;
 }
 
 .clockToken {
@@ -107,23 +102,41 @@ body {
   background-size: cover;
 }
 
-#display-window {
+.center .reticle {
+  position: absolute;
+  color: magenta;
+  transform: scale(4);
+}
+
+.display-window {
   width: 854px;
   height: 480px;
   border: 1px dotted black;
   position: fixed;
   right: 10px;
+  background-size: contain;
 }
 
-.center {
-  position: relative;
-  top: 50%;
-  left: 50%;
+img#bg {
+  /* Set up proportionate scaling */
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  /* Set up positioning */
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-1%, -2%);
 }
-.center .reticle {
-  position: relative;
-  color: magenta;
-  transform: scale(8);
+
+.instructions {
+  position: fixed;
+  top: 2%;
+  left: 1%;
+  width: 220px;
+  padding: 0px 10px;
+  border: 1px solid gray;
+  border-radius: 10px;
 }
 
 .controls {
@@ -132,30 +145,44 @@ body {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
-  bottom: 0;
-  right: 100;
-  width: 300px;
+  bottom: 2%;
+  left: 1%;
+  width: 220px;
   padding: 10px;
   border-radius: 10px;
-  border: 2px solid gray;
+  border: 1px solid gray;
 }
 
 .configControl-button {
-  margin: 2px;
-  flex: 0.4 0 40%;
-}
-.configControl-uploadButton {
-  padding: 2px;
+  font-family: "Georgia", serif;
+  border: none;
+  margin: 3px;
+  padding: 5px;
+  flex: 1 0 40%;
   text-align: center;
-  border-radius: 5%;
-  border: 1px solid black;
-  background-color: #bdbdbd;
+}
+.configControl-button:hover {
+  box-shadow: 0 9px 17px 0 rgba(0, 0, 0, 0.3), 0 7px 21px 0 rgba(0, 0, 0, 0.2);
+}
+.configControl-twitchConfig {
+  background-color: #deaaf7;
+}
+.configControl-localConfig {
+  background-color: #98dbd7;
+}
+.configControl-buttonUpload {
+  font-size: 13.5px;
+  padding: 3px;
+  text-align: center;
+  flex-grow: 0.5;
 }
 .configControl-fileInput {
   display: none;
 }
 .configControl-buttonSave {
-  background-color: red;
+  background-color: #cf4a4a;
+  font-size: 15px;
+  font-weight: bold;
 }
 
 .clockToken {

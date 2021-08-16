@@ -1,5 +1,5 @@
 
-const MAX_TOKEN_SIZE = 17;
+const MAX_TOKEN_SIZE = 40;
 const MIN_TOKEN_SIZE = 8;
 
 const MAX_RADIUS = 400;

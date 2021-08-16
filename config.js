@@ -4,11 +4,47 @@ import {
     updateGrimoireState,
     updateDisplayResolution,
     getConfigState,
-    refreshDisplay
 } from "./viewer.js";
 
 const twitch = window.Twitch.ext;
 const RADIUS_INCREMENT = 5;
+
+let playerCount = 5;
+const MAX_PLAYERS = 20;
+
+/**
+ * Mock grimoire state to allow any number of tokens for config
+ * 
+ * @returns {Object} a mock grimoire with the correct number of players
+ */
+function makeGrimoire() {
+    return {
+        players: [
+            {role: "washerwoman"},
+            {role: "librarian"},
+            {role: "investigator"},
+            {role: "chef"},
+            {role: "empath"},
+            {role: "fortuneteller"},
+            {role: "undertaker"},
+            {role: "monk"},
+            {role: "ravenkeeper"},
+            {role: "virgin"},
+            {role: "slayer"},
+            {role: "soldier"},
+            {role: "mayor"},
+            {role: "butler"},
+            {role: "drunk"},
+            {role: "recluse"},
+            {role: "saint"},
+            {role: "imp"},
+            {role: "baron"},
+            {role: "spy"},
+        ].slice(0, playerCount)
+    };
+}
+
+updateGrimoireState(makeGrimoire());
 
 twitch.onContext((context, changed) => {
     if(changed.includes("displayResolution")){
@@ -31,9 +67,9 @@ twitch.listen("broadcast", (target, contentType, message) => {
         updateConfigState(parsedMessage.settings);
     }
 
-    if(parsedMessage.type === "grimoire") {
-        updateGrimoireState(parsedMessage.grimoire);
-    }
+    // if(parsedMessage.type === "grimoire") {
+    //     updateGrimoireState(parsedMessage.grimoire);
+    // }
 });
 
 
@@ -48,15 +84,8 @@ twitch.configuration.onChanged(() => {
         handleReceiveConfigUpdate(twitch.configuration.broadcaster.content);
     }
 
-    const dummyGrimoire = {
-        players: [
-            {role: "imp"},
-            {role: "soldier"},
-            {role: "recluse"},
-            {role: "sailor"},
-            {role: "flowergirl"}
-        ]};
-    updateGrimoireState(dummyGrimoire);
+
+    // updateGrimoireState(dummyGrimoire);
     updateDisplayResolution("845x480");
 });
 
@@ -66,7 +95,7 @@ twitch.configuration.onChanged(() => {
  */
 function saveConfig() {
     const config = getConfigState();
-
+    console.log(config);
     // set config in twitch service
     twitch.configuration.set("broadcaster", "1", JSON.stringify(config));
 
@@ -74,12 +103,14 @@ function saveConfig() {
     twitch.send("broadcast", "application/json", {type: "config", settings: config});
 }
 
+// Move overlay up
 function handleClickUp() {
     const prevState = getConfigState();
     updateConfigState({y: prevState.y - 1});
 }
 document.getElementById("button-up").addEventListener("click", handleClickUp);
 
+// Move overlay down
 function handleClickDown() {
     const prevState = getConfigState();
     updateConfigState({y: prevState.y + 1});
@@ -88,6 +119,7 @@ document
     .getElementById("button-down")
     .addEventListener("click", handleClickDown);
 
+// Move overlay left
 function handleClickLeft() {
     const prevState = getConfigState();
     updateConfigState({x: prevState.x - 1});
@@ -96,6 +128,7 @@ document
     .getElementById("button-left")
     .addEventListener("click", handleClickLeft);
 
+// Move overlay right
 function handleClickRight() {
     const prevState = getConfigState();
     updateConfigState({x: prevState.x + 1});
@@ -104,7 +137,7 @@ document
     .getElementById("button-right")
     .addEventListener("click", handleClickRight);
 
-
+// Increase token size
 function handleBiggerToken() {
     const prevState = getConfigState();
     updateConfigState({tokenSize: prevState.tokenSize + 1});
@@ -113,6 +146,7 @@ document
     .getElementById("button-bigger")
     .addEventListener("click", handleBiggerToken);
 
+// Decrease token size
 function handleSmallerToken() {
     const prevState = getConfigState();
     updateConfigState({tokenSize: prevState.tokenSize - 1});
@@ -121,6 +155,7 @@ document
     .getElementById("button-smaller")
     .addEventListener("click", handleSmallerToken);
 
+// Increase circle radius
 function handleIncreaseRadius() {
     const prevState = getConfigState();
     updateConfigState({radius: prevState.radius + RADIUS_INCREMENT});
@@ -129,6 +164,7 @@ document
     .getElementById("button-expand")
     .addEventListener("click", handleIncreaseRadius);
 
+// Decrease circle radius
 function handleDecreaseRadius() {
     const prevState = getConfigState();
     updateConfigState({radius: prevState.radius - RADIUS_INCREMENT});
@@ -137,11 +173,28 @@ document
     .getElementById("button-contract")
     .addEventListener("click", handleDecreaseRadius);
 
+// Add a player. On this page only, NOT saved to global config.
+function handleAddPlayer() {
+    if (playerCount < MAX_PLAYERS){
+        playerCount++;
+    }
+    updateGrimoireState(makeGrimoire());
+}
+document.getElementById("button-addPlayer").addEventListener("click", handleAddPlayer);
+
+// Remove a player. On this page only, NOT saved to global config.
+function handleRemovePlayer() {
+    if (playerCount > 0){
+        playerCount--;
+    }
+    updateGrimoireState(makeGrimoire());
+}
+document.getElementById("button-removePlayer").addEventListener("click", handleRemovePlayer);
+
 let reader = new FileReader();
 reader.addEventListener("load", (event) => {
     const bg = document.getElementById("bg");
     bg.src = reader.result;
-    // document.body.style.background = `url(${reader.result}) no-repeat center center fixed`
 });
 
 function handleSetBackground(e) {
@@ -149,8 +202,6 @@ function handleSetBackground(e) {
 
     if (file) {
         reader.readAsDataURL(file);
-    } else {
-        //do nothing
     }
 }
 
@@ -160,6 +211,3 @@ document
 
 // Handle saving settings
 document.getElementById("button-save").addEventListener("click", saveConfig);
-
-// Setup initial overlay
-// createOverlay(state.players, state.radius);
