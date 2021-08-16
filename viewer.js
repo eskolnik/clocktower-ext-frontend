@@ -42,7 +42,6 @@ function createOverlay(players, radius, tokenSize, displayResolution) {
     
     
     const centerNode = document.getElementById("center");
-    console.log(players, displayResolution, centerNode);
     const playerCount = players.length;
 
     if(playerCount <= 0) {

@@ -9,38 +9,45 @@
     />
 </head>
 <body>
-    <div id="display-window" class="display-window">
-        <img id="bg" src=""/>
-        <div id="center" class="center orbit-center">
-            <div class="reticle">+</div>
+    <div class="container">
+        <div class="leftPanel">
+            <div id="instructions" class="instructions">
+                <p>To position the overlay, screenshot your stream layout and upload it. 
+                    Be sure to capture only the 16:9 Twitch player, or the overlay will be misaligned.</p>
+                <p>
+                    <span class="configControl-twitchConfig">Purple settings</span> affect the viewer, 
+                    <span class="configControl-localConfig">green settings</span> are only to help you adjust the overlay.
+                </p>
+                <p>TODO: Add bookmarklet instructions / secret generation</p>
+            </div>
+            <div id="controls" class='controls'>
+                <button id="button-up" class="configControl-button configControl-twitchConfig">Up</button>
+                <button id="button-down" class="configControl-button configControl-twitchConfig">Down</button>
+                <button id="button-left" class="configControl-button configControl-twitchConfig">Left</button>
+                <button id="button-right" class="configControl-button configControl-twitchConfig">Right</button>
+                <button id="button-expand" class="configControl-button configControl-twitchConfig">Expand Circle</button>
+                <button id="button-contract" class="configControl-button configControl-twitchConfig">Contract Circle</button>
+                <button id="button-bigger" class="configControl-button configControl-twitchConfig">Bigger Tokens</button>
+                <button id="button-smaller" class="configControl-button configControl-twitchConfig">Smaller Tokens</button>
+                <button id="button-addPlayer" class="configControl-button configControl-localConfig">Add Player</button>
+                <button id="button-removePlayer" class="configControl-button configControl-localConfig">Remove Player</button>
+                <label for="button-background" class="configControl-button configControl-buttonUpload configControl-localConfig">
+                    Upload Background Image
+                </label>
+                <input type="file"
+                class="configControl-fileInput"
+                id="button-background" name="background"
+                accept="image/png, image/jpeg">
+                <button id="button-save" class="configControl-button configControl-buttonSave">SAVE</button>
+            </div>
         </div>
-    </div>
 
-    <div id="instructions" class="instructions">
-        <p>To position the overlay, screenshot your stream layout and upload it. Be sure to capture only the 16:9 Twitch player, or the overlay will be misaligned.</p>
-        <p><span class="configControl-twitchConfig">Purple buttons</span> are settings that affect the viewer, 
-            <span class="configControl-localConfig">green buttons</span> are only local settings to help adjust the overlay.</p>
-    </div>
-    
-    <div id="controls" class='controls'>
-        <button id="button-up" class="configControl-button configControl-twitchConfig">Up</button>
-        <button id="button-down" class="configControl-button configControl-twitchConfig">Down</button>
-        <button id="button-left" class="configControl-button configControl-twitchConfig">Left</button>
-        <button id="button-right" class="configControl-button configControl-twitchConfig">Right</button>
-        <button id="button-expand" class="configControl-button configControl-twitchConfig">Expand Circle</button>
-        <button id="button-contract" class="configControl-button configControl-twitchConfig">Contract Circle</button>
-        <button id="button-bigger" class="configControl-button configControl-twitchConfig">Bigger Tokens</button>
-        <button id="button-smaller" class="configControl-button configControl-twitchConfig">Smaller Tokens</button>
-        <button id="button-addPlayer" class="configControl-button configControl-localConfig">Add Player</button>
-        <button id="button-removePlayer" class="configControl-button configControl-localConfig">Remove Player</button>
-        <label for="button-background" class="configControl-button configControl-buttonUpload configControl-localConfig">
-            Upload Background Image
-        </label>
-        <input type="file"
-            class="configControl-fileInput"
-            id="button-background" name="background"
-            accept="image/png, image/jpeg">
-        <button id="button-save" class="configControl-button configControl-buttonSave">SAVE</button>
+        <div id="display-window" class="display-window">
+            <img id="bg" src=""/>
+            <div id="center" class="center orbit-center">
+                <div class="reticle">+</div>
+            </div>
+        </div>
     </div>
     
     <script type="module" src="config.js"></script>

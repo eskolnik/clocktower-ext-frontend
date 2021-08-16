@@ -89,6 +89,12 @@ twitch.configuration.onChanged(() => {
     updateDisplayResolution("845x480");
 });
 
+twitch.onAuthorized(auth => {
+    const {channelId} = auth;
+    
+
+});
+
 
 /**
  * Update the Twitch Config Service with the current values in state

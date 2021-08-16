@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "test",
-    "start": "http-server"
+    "start": "http-server",
+    "sass": "sass -w sass:stylesheets"
   },
   "proxy": "http://localhost:3000",
   "author": "ezraskolnik@gmail.com",
