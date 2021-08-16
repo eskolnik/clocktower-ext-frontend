@@ -22,6 +22,11 @@ let state = {
 
 const twitch = window.Twitch.ext;
 
+twitch.onContext((context, changed) => {
+    console.log(changed, context);
+});
+
+
 function validateConfig(config) {
     if (typeof config.players !== "number" || config.players < 0) {
         return false;

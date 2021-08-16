@@ -11,10 +11,11 @@
     />
 </head>
 <body>
-    <img id="bg" class="bg">
-
-    <div id="center" class="center orbit-center">
-        <div class="reticle">+</div>
+    <div id="display-window">
+        <img id="bg" src=""/>
+        <div id="center" class="center orbit-center">
+            <div class="reticle">+</div>
+        </div>
     </div>
     
     <div id="controls" class='controls'>
@@ -37,5 +38,5 @@
             accept="image/png, image/jpeg">
         <button id="button-save" class="configControl-button configControl-buttonSave">Save Config</button>
     </div>
-    <script src="config.js"></script>
+    <script type="module" src="config.js"></script>
 </body>

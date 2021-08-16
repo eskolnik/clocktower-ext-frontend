@@ -3,14 +3,19 @@
   top: 50%;
   left: 50%;
 }
+.center .reticle {
+  position: relative;
+  color: magenta;
+  transform: scale(4);
+}
 
 .clockToken {
   border-radius: 50%;
   position: absolute;
   margin: 0px;
   padding: 0px;
-  line-height: 43px;
-  /* border:1px solid #ccc; */
+  display: flex;
+  align-items: center;
   z-index: 1;
 }
 .clockToken-8 {
@@ -67,11 +72,11 @@
   display: flex;
   filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5));
   font-family: "Roboto Condensed", sans-serif;
-  font-size: large;
+  font-size: medium;
   justify-items: center;
   left: 120%;
   opacity: 0;
-  padding: 5px 10px;
+  padding: 10px 10px;
   pointer-events: none;
   position: absolute;
   text-align: left;
@@ -99,7 +104,7 @@ body {
 }
 
 .clockToken {
-  background: rgba(255, 255, 255, 0);
+  background: #0368ac;
 }
 
 /*# sourceMappingURL=video_overlay.css.map */
