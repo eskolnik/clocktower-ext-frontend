@@ -1,5 +1,5 @@
 {
-  "name": "paperweight-clocktower",
+  "name": "clocktower-ext-frontend",
   "version": "0.0.1",
   "description": "clocktower twitch ext",
   "main": "index.js",
@@ -7,12 +7,15 @@
   "scripts": {
     "test": "test",
     "start": "http-server",
-    "sass": "sass -w sass:stylesheets"
+    "sass": "sass -w sass:stylesheets",
+    "build-bookmarklet": "uglifyjs bookmarklet/bookmarklet.js -o bookmarklet/bookmarklet.min.js",
+    "build": "yarn build-bookmarklet"
   },
   "proxy": "http://localhost:3000",
   "author": "ezraskolnik@gmail.com",
   "license": "ISC",
   "dependencies": {
-    "eslint": "^7.32.0"
+    "eslint": "^7.32.0",
+    "uglify-js": "^3.14.1"
   }
 }
