@@ -1,13 +1,15 @@
 // javascript: 
 (
     () => {
-        const extensionNodeId = "botc-twitch-extension";
+        const extensionNodeId = "botcTwitchExtension";
+        const configMenuNodeId = "botcTwitchExtensionConfig";
+
         const EBS_URL="http://localhost:3000";
 
         const localStorageKey = "twitchBotcExtensionLoaded";
 
         // Only load one instance of extension at a time
-        if(document.getElementById(extensionNodeId)) {
+        if(document.getElementById(extensionNodeId) || localStorage.get(localStorageKey)) {
             return;
         }
 
@@ -22,7 +24,8 @@
             bluffs: [],
             edition: {},
             secretKey: "",
-            isExtensionActive: false
+            isExtensionActive: false,
+            menuVisible: false
         };
 
 
@@ -54,7 +57,6 @@
 
         function sendGrimoire(){
             const url = EBS_URL + "/grimoire/"+state.secretKey;
-            // const { session, playerId, isHost, players } = req.body;
 
             const body = grimoireToJson(state);
 
@@ -73,9 +75,9 @@
             Object.assign(node.style, styles);
         }
         
-        // ----------------
+        // ----------------------------------------------------------------------------
         //  EXTENSION ICON
-        // ----------------
+        // ----------------------------------------------------------------------------
         const controlsNode = document.getElementById("controls");
         const extensionNode = document.createElement("div");
         extensionNode.id = extensionNodeId;
@@ -96,12 +98,12 @@
         svgNode.innerHTML = "<path d=\"M5.7 0L1.4 10.985V55.88h15.284V64h8.597l8.12-8.12h12.418l16.716-16.716V0H5.7zm51.104 36.3L47.25 45.85H31.967l-8.12 8.12v-8.12H10.952V5.73h45.85V36.3zM47.25 16.716v16.716h-5.73V16.716h5.73zm-15.284 0v16.716h-5.73V16.716h5.73z\" fill=\"#6441a4\" fill-rule=\"evenodd\"></path>";
         extensionNode.appendChild(svgNode);
    
-        // -------------
+        // -------------------------------------------------------------------------
         //  CONFIG MENU
-        // -------------
+        // -------------------------------------------------------------------------
         
         const configMenuNode = document.createElement("div");
-        configMenuNode.id = "botc-twitch-extension-config";
+        configMenuNode.id = configMenuNodeId;
         const configMenuStyles = {
             width: "300px",
             height: "320px",
@@ -135,9 +137,15 @@
             return rowNode;
         };
 
-        // ---------------------
+        // ---------------------------------------------------------------------------------
         //  SECRET KEY INPUT
-        // ---------------------
+        // ---------------------------------------------------------------------------------
+        const secretKeyInstructionsNode = document.createElement("p");
+        secretKeyInstructionsNode.innerHTML = "Paste the secret key you generated on the extension config page. If you're not streaming, you don't need to worry about this.";
+        assignStyles(secretKeyInstructionsNode, {
+            marginTop: "0px"
+        });
+
         const secretKeyInputNode = document.createElement("input");
         secretKeyInputNode.type="password";
         secretKeyInputNode.id = "twitch-config-channelInput";
@@ -173,18 +181,13 @@
         });
 
         const secretKeyRow = createConfigMenuRow(secretKeyLabelNode, secretKeyInputNode, secretKeyButtonNode);
-        configMenuNode.appendChild(secretKeyRow);
-
-        const secretKeyInstructionsNode = document.createElement("p");
-        secretKeyInstructionsNode.innerHTML = "Paste the secret key you generated on the extension config page. If you're not streaming, you don't need to worry about this.";
-
+        
         configMenuNode.appendChild(secretKeyInstructionsNode);
-
+        configMenuNode.appendChild(secretKeyRow);
         
-        
-        // -----------------------
-        //  LISTENER SETTINGS 
-        // -----------------------
+        // -----------------------------------------------------------------------------------
+        //  ENABLE GRIMOIRE TRACKING
+        // -----------------------------------------------------------------------------------
         const enableInstructionsNode = document.createElement("p");
         enableInstructionsNode.innerHTML = "Click the checkbox below to enable sending the grimoire to Twitch. Note that you must be in a live game sesion for this to work.";
 
@@ -199,12 +202,30 @@
 
         assignStyles(toggleListenNode, toggleListenNodeStyles);
 
+        toggleListenNode.addEventListener("change", e => {
+            if(e.target.checked) {
+                state.isExtensionActive = true;
+                updateGrimoireState();
+                startWatchingGrimoire();
+            } else {
+                state.isExtensionActive = false;
+                stopWatchingGrimoire();
+            }
+        });
+
         const toggleListenLabel = document.createElement("label");
         toggleListenLabel.htmlFor="twitch-config-listenToggle";
         toggleListenLabel.style.color="black";
         toggleListenLabel.innerHTML="Enable: ";
 
-        const activationRow = createConfigMenuRow(toggleListenLabel, toggleListenNode);
+        const closeButtonNode = document.createElement("button");
+        closeButtonNode.innerHTML = "Close";
+        assignStyles(closeButtonNode, {
+            marginLeft: "auto",
+            marginRight: "10px"
+        });
+
+        const activationRow = createConfigMenuRow(toggleListenLabel, toggleListenNode, closeButtonNode);
 
         configMenuNode.appendChild(activationRow);
 
@@ -212,12 +233,17 @@
         
         controlsNode.prepend(extensionNode);
 
-        let menuVisible = false;
         function toggleConfigMenu() {
-            menuVisible = !menuVisible;
-            configMenuNode.style.display = menuVisible ? "block" : "none";
+            state.menuVisible = !state.menuVisible;
+            const configMenu = document.getElementById(configMenuNodeId);
+            configMenu.style.display = state.menuVisible ? "block" : "none";
         }
 
+        closeButtonNode.addEventListener("click", toggleConfigMenu);
+
+        // ------------------------------------------------------------------
+        // GRIMOIRE TRACKER
+        // ------------------------------------------------------------------
         function mapPlayerToObject (player){
             return {
                 role: typeof player.role === "string" ? player.role : "",
@@ -242,13 +268,12 @@
         // But realistically it's not worth a more robust solution
         function isGrimoireStateUpdated (nextState) { return grimoireToJson(state) !== grimoireToJson(nextState); }
 
-
         const intervalTimer = 5 * 1000;
         let intervalId = -1;
 
         function updateGrimoireState(shouldSendGrimoire = true) {
             
-            const localSession =localStorage.getItem("session");
+            const localSession = localStorage.getItem("session");
             
             const nextSession = localSession ? parseSession(localSession) : {session: null, isHost: false};
             const nextPlayers = parsePlayers(localStorage.getItem("players"));
@@ -286,17 +311,6 @@
             intervalId = -1;
         }
 
-        toggleListenNode.addEventListener("change", e => {
-            if(e.target.checked) {
-                state.isExtensionActive = true;
-                updateGrimoireState();
-                startWatchingGrimoire();
-            } else {
-                state.isExtensionActive = false;
-                stopWatchingGrimoire();
-            }
-        });
-
         svgNode.addEventListener("click", () => {
             toggleConfigMenu();
         });
@@ -317,5 +331,4 @@
 
         // setup initial state without sending grimoire
         updateGrimoireState(false);
-          
     })();
