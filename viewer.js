@@ -20,8 +20,9 @@ let state = {
         edition: {}
     },
     context: {
-        displayResolution: "1920x1080"
-    }
+        displayResolution: "1920x1080",
+    },
+    isActive: true
 };
 
 // Exposed for config view
@@ -125,10 +126,11 @@ function getRoleAbility(roleName) {
 }
 
 function refreshDisplay() {
-    console.log("display", state);
-    moveCenter(state.config.x, state.config.y);
     destroyOverlay();
-    createOverlay();
+    moveCenter(state.config.x, state.config.y);
+    if(state.isActive) {
+        createOverlay();
+    }
 }
 
 
@@ -172,10 +174,11 @@ function updateConfigState(config) {
 
 function updateGrimoireState(grimoire) {
     // validateGrimoire(grimoire); // TODO
-    const {players, edition} = grimoire;
+    const {players, edition, isActive} = grimoire;
 
     state.grimoire.players = players;
     state.grimoire.edition = edition;
+    state.isActive = isActive;
     
     refreshDisplay();
 }

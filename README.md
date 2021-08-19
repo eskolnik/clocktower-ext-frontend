@@ -6,6 +6,10 @@ This extension is designed to be used in conjunction with the unofficial [Townsq
 ## Features
 * Displays character ability text to viewers on hover.
 
+## Roadmap
+* Stop displaying overlay when the "active" checkbox is unchecked in the browser, or when the browser is closed
+* make a bookmarlet image in the config panel to drag to bookmark bar
+* synchronize display lag / make lag configurable by streamer
 
 ## Acknowledgements and Copyrights
 * [Blood on the Clocktower](https://bloodontheclocktower.com/) is a trademark of Steven Medway and [The Pandemonium Institute](https://www.thepandemoniuminstitute.com/)
