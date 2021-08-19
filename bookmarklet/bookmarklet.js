@@ -4,10 +4,14 @@
         const extensionNodeId = "botc-twitch-extension";
         const EBS_URL="http://localhost:3000";
 
+        const localStorageKey = "twitchBotcExtensionLoaded";
+
         // Only load one instance of extension at a time
         if(document.getElementById(extensionNodeId)) {
             return;
         }
+
+        localStorage.setItem(localStorageKey, true);
 
         // initialize state
         let state = {
@@ -21,8 +25,6 @@
             isExtensionActive: false
         };
 
-        // setup initial state without sending grimoire
-        updateGrimoireState(false);
 
         function grimoireToJson(data) {
             return JSON.stringify({
@@ -102,16 +104,17 @@
         configMenuNode.id = "botc-twitch-extension-config";
         const configMenuStyles = {
             width: "300px",
-            height: "200px",
-            background: "white",
+            height: "320px",
+            background: "rgb(200, 181, 234",
             color: "black",
             fontSize: "16px",
             overflow: "wrap",
-            padding: "5px",
-            border: "3px solid #6441a4",
-            borderRadius: "10px",
+            padding: "10px",
+            border: "10px solid #6441a4",
+            borderRadius: "30px",
             transform: "translateX(-100%)",
             display: "none",
+            textAlign: "left"
             
         };
 
@@ -177,17 +180,29 @@
 
         configMenuNode.appendChild(secretKeyInstructionsNode);
 
+        
+        
         // -----------------------
         //  LISTENER SETTINGS 
         // -----------------------
+        const enableInstructionsNode = document.createElement("p");
+        enableInstructionsNode.innerHTML = "Click the checkbox below to enable sending the grimoire to Twitch. Note that you must be in a live game sesion for this to work.";
+
+        configMenuNode.appendChild(enableInstructionsNode);
+
         const toggleListenNode = document.createElement("input");
         toggleListenNode.id="twitch-config-listenToggle";
         toggleListenNode.type = "checkbox";
+        const toggleListenNodeStyles = {
+            transform: "translateX(50%) scale(2)"
+        };
+
+        assignStyles(toggleListenNode, toggleListenNodeStyles);
 
         const toggleListenLabel = document.createElement("label");
         toggleListenLabel.htmlFor="twitch-config-listenToggle";
         toggleListenLabel.style.color="black";
-        toggleListenLabel.innerHTML="Enable extension display:";
+        toggleListenLabel.innerHTML="Enable: ";
 
         const activationRow = createConfigMenuRow(toggleListenLabel, toggleListenNode);
 
@@ -203,14 +218,6 @@
             configMenuNode.style.display = menuVisible ? "block" : "none";
         }
 
-        // document.addEventListener("keydown", (event) => {
-        //     if(menuVisible) {
-        //         event.stopPropagation();
-        //         console.log(event.code);
-        //     }
-        // });
-
-        
         function mapPlayerToObject (player){
             return {
                 role: typeof player.role === "string" ? player.role : "",
@@ -240,14 +247,17 @@
         let intervalId = -1;
 
         function updateGrimoireState(shouldSendGrimoire = true) {
-            const nextSession = parseSession(localStorage.session);
-            const nextPlayers = parsePlayers(localStorage.players);
+            
+            const localSession =localStorage.getItem("session");
+            
+            const nextSession = localSession ? parseSession(localSession) : {session: null, isHost: false};
+            const nextPlayers = parsePlayers(localStorage.getItem("players"));
             const nextEdition = {};
 
             const nextState = {
                 ...state, 
                 session: nextSession.session,
-                playerId: localStorage.playerId,
+                playerId: localStorage.getItem("playerId"),
                 isHost: nextSession.isHost,
                 players: nextPlayers,
                 edition: nextEdition,
@@ -269,14 +279,12 @@
             intervalId = setInterval(updateGrimoireState, intervalTimer);
         }
     
-
         function stopWatchingGrimoire() { 
             state.isExtensionActive = false;
             sendSession();
             clearInterval(intervalId);
             intervalId = -1;
         }
-
 
         toggleListenNode.addEventListener("change", e => {
             if(e.target.checked) {
@@ -303,6 +311,11 @@
             const body = {session, playerId, isActive: false, players};
 
             navigator.sendBeacon(url, JSON.stringify(body));
+
+            localStorage.removeItem(localStorageKey);
         });
+
+        // setup initial state without sending grimoire
+        updateGrimoireState(false);
           
     })();
