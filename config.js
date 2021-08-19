@@ -5,7 +5,7 @@ import {
     updateDisplayResolution,
     getConfigState,
 } from "./viewer.js";
-import { EBS_URL } from "./utils/constants.js";
+import { EBS_CASTER, EBS_URL } from "./utils/constants.js";
 
 const twitch = window.Twitch.ext;
 const RADIUS_INCREMENT = 5;
@@ -110,7 +110,7 @@ function saveConfig() {
 
     // Save secret key to backend
     // const ebsEndpointUrl = path.join(EBS_URL, "broadcaster");
-    const ebsEndpointUrl = `${EBS_URL}broadcaster`;
+    const ebsEndpointUrl = `${EBS_URL}/${EBS_CASTER}`;
     const body = JSON.stringify({secretKey: "TESTKEY", channelId: channelId});
 
     console.log(ebsEndpointUrl);

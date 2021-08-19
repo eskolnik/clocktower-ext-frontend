@@ -21,6 +21,9 @@
             isExtensionActive: false
         };
 
+        // setup initial state without sending grimoire
+        updateGrimoireState(false);
+
         function grimoireToJson(data) {
             return JSON.stringify({
                 session: data.session,
@@ -57,11 +60,11 @@
         }
 
         function sendSession() {
-            const url = EBS_URL + "/" + state.secretKey;
-            const { session, playerId, isExtensionActive, players } = state;
-            const body = {session, playerId, isActive: isExtensionActive, players};
+            const url = EBS_URL + "/session/" + state.secretKey;
+            const { session, playerId, isExtensionActive } = state;
+            const body = {session, playerId, isActive: isExtensionActive};
 
-            wrappedFetch(url, body).then(console.log); 
+            wrappedFetch(url, JSON.stringify(body)).then(console.log); 
         }
 
         function assignStyles(node, styles) {
@@ -208,33 +211,35 @@
         // });
 
         
-        const mapPlayerToObject = player => ({
-            role: typeof player.role === "string" ? player.role : "",
-            name: player.name,
-            id: player.id
-        });
+        function mapPlayerToObject (player){
+            return {
+                role: typeof player.role === "string" ? player.role : "",
+                name: player.name,
+                id: player.id
+            };
+        }
         
         // parse players list
-        const parsePlayers = (playersJson) => JSON.parse(playersJson).map(mapPlayerToObject);
-        const parseSession = (sessionJson) => {
+        function parsePlayers (playersJson) { return JSON.parse(playersJson).map(mapPlayerToObject); }
+        function parseSession (sessionJson) {
             const s = JSON.parse(sessionJson);
             return {
                 isHost: !s[0],
                 session: s[1]
             };
-        };
+        }
 
         // Test if two grimoire states are equivalent
         // Currently we're just comparing the stringified objects,
         // which will be incorrect if the keys are in the wrong order
         // But realistically it's not worth a more robust solution
-        const isGrimoireStateUpdated = (nextState) => grimoireToJson(state) !== grimoireToJson(nextState);
+        function isGrimoireStateUpdated (nextState) { return grimoireToJson(state) !== grimoireToJson(nextState); }
 
 
         const intervalTimer = 5 * 1000;
         let intervalId = -1;
 
-        const updateGrimoireState = () => {
+        function updateGrimoireState(shouldSendGrimoire = true) {
             const nextSession = parseSession(localStorage.session);
             const nextPlayers = parsePlayers(localStorage.players);
             const nextEdition = {};
@@ -253,20 +258,24 @@
                 // if updated, save and update server
                 state = nextState;
 
-                sendGrimoire();
+                if(shouldSendGrimoire) sendGrimoire();
             }
-        };
+        }
         
-        const startWatchingGrimoire = () => {
+        function startWatchingGrimoire () {
             console.log("watching grimoire");
+            state.isExtensionActive = true;
+            sendSession();
             intervalId = setInterval(updateGrimoireState, intervalTimer);
-        };
+        }
     
 
-        const stopWatchingGrimoire = () => { 
+        function stopWatchingGrimoire() { 
+            state.isExtensionActive = false;
+            sendSession();
             clearInterval(intervalId);
             intervalId = -1;
-        };
+        }
 
 
         toggleListenNode.addEventListener("change", e => {
@@ -288,7 +297,8 @@
         window.addEventListener("beforeunload", () => {
             state.isExtensionActive = false;
             
-            const url = EBS_URL + "/" + state.secretKey;
+            const url = EBS_URL + "/session/" + state.secretKey;
+
             const { session, playerId, players } = state;
             const body = {session, playerId, isActive: false, players};
 

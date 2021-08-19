@@ -11,7 +11,9 @@ const WINDOW_MAX = 100;
 const TOKEN_CLASSNAME = "clockToken";
 const ABILITY_CLASSNAME = "ability";
 
-const EBS_URL = "http://localhost:3000/";
+const EBS_URL = "http://localhost:3000";
+const EBS_GRIMOIRE = "grimoire";
+const EBS_CASTER = "broadcaster";
 
 
 export default {
@@ -23,7 +25,9 @@ export default {
     WINDOW_MAX,
     TOKEN_CLASSNAME,
     ABILITY_CLASSNAME,
-    EBS_URL
+    EBS_URL,
+    EBS_GRIMOIRE,
+    EBS_CASTER
 };
 
 export { 
@@ -35,5 +39,7 @@ export {
     WINDOW_MAX,
     TOKEN_CLASSNAME,
     ABILITY_CLASSNAME,
-    EBS_URL
+    EBS_URL,
+    EBS_GRIMOIRE,
+    EBS_CASTER
 };
