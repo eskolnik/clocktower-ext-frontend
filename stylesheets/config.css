@@ -106,19 +106,6 @@ body {
   overflow: hidden;
 }
 
-.container {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-}
-
-.leftPanel {
-  display: flex;
-  margin-right: 10px;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
 .center .reticle {
   position: absolute;
   color: magenta;
@@ -145,14 +132,31 @@ img#bg {
   transform: translate(-1%, -2%);
 }
 
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.leftPanel {
+  display: flex;
+  margin-right: 10px;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .instructions {
   height: 220px;
   flex-grow: 1;
   padding: 0px 10px;
+  margin-bottom: 10px;
   border: 1px solid gray;
   border-radius: 10px;
   margin-top: 5px;
   overflow: auto;
+}
+.instructions .secretKeyText {
+  font-weight: bold;
 }
 
 .controls {

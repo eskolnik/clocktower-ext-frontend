@@ -13,7 +13,7 @@ let state = {
         radius: 150,
         x: 50,
         y: 50,
-        tokenSize: 14,
+        tokenSize: 14
     },
     grimoire: {
         players: [],

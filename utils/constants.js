@@ -15,6 +15,8 @@ const EBS_URL = "http://localhost:3000";
 const EBS_GRIMOIRE = "grimoire";
 const EBS_CASTER = "broadcaster";
 
+const SECRET_LENGTH = 32;
+
 
 export default {
     MAX_TOKEN_SIZE,
@@ -27,7 +29,8 @@ export default {
     ABILITY_CLASSNAME,
     EBS_URL,
     EBS_GRIMOIRE,
-    EBS_CASTER
+    EBS_CASTER,
+    SECRET_LENGTH
 };
 
 export { 
@@ -41,5 +44,6 @@ export {
     ABILITY_CLASSNAME,
     EBS_URL,
     EBS_GRIMOIRE,
-    EBS_CASTER
+    EBS_CASTER,
+    SECRET_LENGTH
 };

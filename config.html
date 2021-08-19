@@ -12,13 +12,23 @@
     <div class="container">
         <div class="leftPanel">
             <div id="instructions" class="instructions">
+                <p>Make sure you scroll down to follow all the steps below.</p>
                 <p>To position the overlay, screenshot your stream layout and upload it. 
-                    Be sure to capture only the 16:9 Twitch player, or the overlay will be misaligned.</p>
-                <p>
+                    Be sure to capture only the 16:9 Twitch player, or the overlay will be misaligned.
                     <span class="configControl-twitchConfig">Purple settings</span> affect the viewer, 
                     <span class="configControl-localConfig">green settings</span> are only to help you adjust the overlay.
                 </p>
-                <p>TODO: Add bookmarklet instructions / secret generation</p>
+                <p id="secretKeyDescription">
+                    Generate and save a <span class="secretKeyText">Secret Key</span>. You can change this at any time, but you must update it in the browser extension as well.
+                    <input id="secretKeyInput" type="text" readonly>
+                    <input id="secretKeyGenerate" type="button" value="Generate">
+                    <input id="secretKeySave" type="button" value="Save Secret">
+                </p>
+                <p id="bookmarklet">
+                    <a id="bookmarkletLink" href="">DRAG ME</a> to your bookmarks bar. Click that bookmark while on the clocktower app to load the extension helper.
+                    To configure it, click the Twitch icon in the top right, paste in your <span class="secretKeyText">Secret Key</span>, and click Save.
+                    Then, click the checkbox to allow the extension to start watching your grimoire.
+                </p>
             </div>
             <div id="controls" class='controls'>
                 <button id="button-up" class="configControl-button configControl-twitchConfig">Up</button>
