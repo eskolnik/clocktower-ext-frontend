@@ -5,12 +5,16 @@ import {
     updateDisplayResolution,
     getConfigState,
 } from "./viewer.js";
+import { EBS_URL } from "./utils/constants.js";
 
 const twitch = window.Twitch.ext;
 const RADIUS_INCREMENT = 5;
 
 let playerCount = 5;
 const MAX_PLAYERS = 20;
+
+let channelId;
+let jwt;
 
 /**
  * Mock grimoire state to allow any number of tokens for config
@@ -90,9 +94,8 @@ twitch.configuration.onChanged(() => {
 });
 
 twitch.onAuthorized(auth => {
-    const {channelId} = auth;
-    
-
+    channelId = auth.channelId;
+    jwt = auth.token;
 });
 
 
@@ -104,6 +107,27 @@ function saveConfig() {
     console.log(config);
     // set config in twitch service
     twitch.configuration.set("broadcaster", "1", JSON.stringify(config));
+
+    // Save secret key to backend
+    // const ebsEndpointUrl = path.join(EBS_URL, "broadcaster");
+    const ebsEndpointUrl = `${EBS_URL}broadcaster`;
+    const body = JSON.stringify({secretKey: "TESTKEY", channelId: channelId});
+
+    console.log(ebsEndpointUrl);
+
+    fetch(ebsEndpointUrl, {
+        method: "POST",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin", 
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + jwt
+        },
+        redirect: "follow", // manual, *follow, error
+        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        body: body
+    }).then(console.log); 
 
     // send updates to active viewers
     twitch.send("broadcast", "application/json", {type: "config", settings: config});

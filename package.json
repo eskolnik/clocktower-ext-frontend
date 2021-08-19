@@ -8,7 +8,7 @@
     "test": "test",
     "start": "http-server",
     "sass": "sass -w sass:stylesheets",
-    "build-bookmarklet": "uglifyjs bookmarklet/bookmarklet.js -o bookmarklet/bookmarklet.min.js",
+    "build-bookmarklet": "uglifyjs bookmarklet/bookmarklet.js -o bookmarklet/bookmarklet.min.js ; sed -i '.bak' '1s;^;javascript:;' bookmarklet/bookmarklet.min.js" ,
     "build": "yarn build-bookmarklet"
   },
   "proxy": "http://localhost:3000",

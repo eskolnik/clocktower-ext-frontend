@@ -11,6 +11,9 @@ const WINDOW_MAX = 100;
 const TOKEN_CLASSNAME = "clockToken";
 const ABILITY_CLASSNAME = "ability";
 
+const EBS_URL = "http://localhost:3000/";
+
+
 export default {
     MAX_TOKEN_SIZE,
     MIN_TOKEN_SIZE,
@@ -19,7 +22,8 @@ export default {
     RADIUS_INCREMENT,
     WINDOW_MAX,
     TOKEN_CLASSNAME,
-    ABILITY_CLASSNAME
+    ABILITY_CLASSNAME,
+    EBS_URL
 };
 
 export { 
@@ -30,5 +34,6 @@ export {
     RADIUS_INCREMENT,
     WINDOW_MAX,
     TOKEN_CLASSNAME,
-    ABILITY_CLASSNAME
+    ABILITY_CLASSNAME,
+    EBS_URL
 };
