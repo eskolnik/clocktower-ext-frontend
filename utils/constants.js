@@ -17,7 +17,6 @@ const EBS_CASTER = "broadcaster";
 
 const SECRET_LENGTH = 32;
 
-
 export default {
     MAX_TOKEN_SIZE,
     MIN_TOKEN_SIZE,

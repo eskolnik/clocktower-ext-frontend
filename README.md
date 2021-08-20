@@ -4,11 +4,9 @@ This is the client side of a Twitch extension for streamed games of Blood on the
 This extension is designed to be used in conjunction with the unofficial [Townsquare](https://clocktower.online/) web app. 
 
 ## Features
-* Displays character ability text to viewers on hover.
+* Displays character ability text to viewers when hovering over the corresponding location of the stream.
 
 ## Roadmap
-* Stop displaying overlay when the "active" checkbox is unchecked in the browser, or when the browser is closed
-* make a bookmarlet image in the config panel to drag to bookmark bar
 * synchronize display lag / make lag configurable by streamer
 
 ## Acknowledgements and Copyrights
