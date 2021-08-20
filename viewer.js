@@ -39,7 +39,8 @@ function createOverlay(players, radius, tokenSize, displayResolution) {
     radius ||= state.config.radius;
     tokenSize ||= state.config.tokenSize;
     displayResolution ||= state.context.displayResolution;
-    
+
+    console.log("draw", players, radius, tokenSize, displayResolution);
     
     const centerNode = document.getElementById("center");
     const playerCount = players.length;
@@ -170,15 +171,18 @@ function updateConfigState(config) {
     return true;
 }
 
+function updateOverlayActiveState(isActive) {
+    if (typeof isActive === "boolean") state.isActive = isActive;
+}
+
 
 function updateGrimoireState(grimoire) {
     // validateGrimoire(grimoire); // TODO
-    const {players, edition, isActive} = grimoire;
+    const {players, edition} = grimoire;
 
     state.grimoire.players = players;
     state.grimoire.edition = edition;
-    state.isActive = isActive;
-    
+
     refreshDisplay();
 }
 
@@ -188,4 +192,12 @@ function updateDisplayResolution(resolution) {
 }
 
 
-export {refreshDisplay, handleReceiveConfigUpdate, updateConfigState, updateGrimoireState, updateDisplayResolution, getConfigState};
+export {
+    refreshDisplay,
+    handleReceiveConfigUpdate,
+    updateConfigState,
+    updateGrimoireState,
+    updateDisplayResolution,
+    updateOverlayActiveState,
+    getConfigState
+};

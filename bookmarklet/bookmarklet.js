@@ -4,12 +4,12 @@
         const extensionNodeId = "botcTwitchExtension";
         const configMenuNodeId = "botcTwitchExtensionConfig";
 
-        const EBS_URL="http://localhost:3000";
+        const EBS_URL="https://9c8df32abce1.ngrok.io";
 
         const localStorageKey = "twitchBotcExtensionLoaded";
 
         // Only load one instance of extension at a time
-        if(document.getElementById(extensionNodeId) || localStorage.get(localStorageKey)) {
+        if(document.getElementById(extensionNodeId) || localStorage.getItem(localStorageKey)) {
             return;
         }
 

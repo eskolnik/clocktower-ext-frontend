@@ -7,11 +7,12 @@ const MIN_RADIUS = 100;
 const RADIUS_INCREMENT = 10;
 
 const WINDOW_MAX = 100;
+const COORDINATE_INCREMENT = 0.5;
 
 const TOKEN_CLASSNAME = "clockToken";
 const ABILITY_CLASSNAME = "ability";
 
-const EBS_URL = "http://localhost:3000";
+const EBS_URL = "https://9c8df32abce1.ngrok.io";
 const EBS_GRIMOIRE = "grimoire";
 const EBS_CASTER = "broadcaster";
 
@@ -26,6 +27,7 @@ export default {
     MIN_RADIUS,
     RADIUS_INCREMENT,
     WINDOW_MAX,
+    COORDINATE_INCREMENT,
     TOKEN_CLASSNAME,
     ABILITY_CLASSNAME,
     EBS_URL,
@@ -42,6 +44,7 @@ export {
     MIN_RADIUS,
     RADIUS_INCREMENT,
     WINDOW_MAX,
+    COORDINATE_INCREMENT,
     TOKEN_CLASSNAME,
     ABILITY_CLASSNAME,
     EBS_URL,
