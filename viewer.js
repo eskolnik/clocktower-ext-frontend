@@ -7,7 +7,6 @@ const {
     ABILITY_CLASSNAME
 } = CONSTANTS;
 
-
 let state = {
     config: {
         radius: 150,

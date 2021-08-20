@@ -5,7 +5,7 @@ import {
     updateDisplayResolution,
     getConfigState,
 } from "./viewer.js";
-import { EBS_CASTER, EBS_URL, SECRET_LENGTH } from "./utils/constants.js";
+import { EBS_CASTER, EBS_URL, PUBSUB_SEGMENT_VERSION, SECRET_LENGTH } from "./utils/constants.js";
 
 const twitch = window.Twitch.ext;
 const RADIUS_INCREMENT = 5;
@@ -53,8 +53,7 @@ updateGrimoireState(makeGrimoire());
 
 twitch.onContext((context, changed) => {
     if(changed.includes("displayResolution")){
-        updateDisplayResolution("845x480");
-        // updateDisplayResolution(context.displayResolution);
+        updateDisplayResolution(context.displayResolution);
     }
 });
    
@@ -146,9 +145,8 @@ function sendSecretKey(secretKey) {
  */
 function saveConfig() {
     const config = getConfigState();
-    console.log(config);
     // set config in twitch service
-    twitch.configuration.set("broadcaster", "1", JSON.stringify(config));
+    twitch.configuration.set("broadcaster", PUBSUB_SEGMENT_VERSION, JSON.stringify(config));
 
     // send updates to active viewers
     twitch.send("broadcast", "application/json", {type: "config", settings: config});

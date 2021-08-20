@@ -17,6 +17,8 @@ const EBS_CASTER = "broadcaster";
 
 const SECRET_LENGTH = 32;
 
+const PUBSUB_SEGMENT_VERSION = "1";
+
 export default {
     MAX_TOKEN_SIZE,
     MIN_TOKEN_SIZE,
@@ -29,7 +31,8 @@ export default {
     EBS_URL,
     EBS_GRIMOIRE,
     EBS_CASTER,
-    SECRET_LENGTH
+    SECRET_LENGTH,
+    PUBSUB_SEGMENT_VERSION
 };
 
 export { 
@@ -44,5 +47,6 @@ export {
     EBS_URL,
     EBS_GRIMOIRE,
     EBS_CASTER,
-    SECRET_LENGTH
+    SECRET_LENGTH,
+    PUBSUB_SEGMENT_VERSION
 };
