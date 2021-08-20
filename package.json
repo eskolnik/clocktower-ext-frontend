@@ -3,12 +3,13 @@
   "version": "0.0.1",
   "description": "clocktower twitch ext",
   "main": "index.js",
+  "private": "true",
   "type": "module",
   "scripts": {
     "test": "test",
     "start": "http-server",
     "sass": "sass -w sass:stylesheets",
-    "build-bookmarklet": "sh ./scripts/minify_bookmarklet.sh" ,
+    "build-bookmarklet": "sh ./scripts/minify_bookmarklet.sh",
     "build": "yarn build-bookmarklet"
   },
   "proxy": "http://localhost:3000",
@@ -17,5 +18,8 @@
   "dependencies": {
     "eslint": "^7.32.0",
     "uglify-js": "^3.14.1"
+  },
+  "devDependencies": {
+    "webpack": "^5.51.1"
   }
 }

@@ -1,4 +1,4 @@
-import baseRoles from "./baseRoles.js";
+import baseRoles from "./utils/baseRoles.js";
 import CONSTANTS from "./utils/constants.js";
 import validateConfig from "./utils/validateConfig.js";
 
