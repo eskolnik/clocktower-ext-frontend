@@ -108,8 +108,8 @@ twitch.onAuthorized(auth => {
             "Content-Type": "application/json",
             "Authorization": "Bearer " + jwt
         },
-        redirect: "follow", // manual, *follow, error
-        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        redirect: "follow", 
+        referrerPolicy: "no-referrer", 
     }).then(response => response.json())
         .then(data => {
             if(data.secretKey) {
