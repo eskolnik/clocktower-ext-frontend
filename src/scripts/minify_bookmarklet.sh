@@ -1,2 +1,1 @@
-yarn run uglifyjs ./bookmarklet/bookmarklet.js -o bookmarklet/bookmarklet.min.js;
-sed -i '.bak' '1s;^;javascript:;' bookmarklet/bookmarklet.min.js;
+yarn run uglifyjs ./src/bookmarklet/bookmarklet.js -o ./src/bookmarklet/bookmarklet.min.js;

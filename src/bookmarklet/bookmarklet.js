@@ -4,12 +4,12 @@
         const extensionNodeId = "botcTwitchExtension";
         const configMenuNodeId = "botcTwitchExtensionConfig";
 
-        const EBS_URL="https://9c8df32abce1.ngrok.io";
+        const EBS_URL="EBS_PLACEHOLDER_URL";
 
         const localStorageKey = "twitchBotcExtensionLoaded";
 
         // Only load one instance of extension at a time
-        if(document.getElementById(extensionNodeId) || localStorage.getItem(localStorageKey)) {
+        if(document.getElementById(extensionNodeId) ) {
             return;
         }
 
@@ -133,7 +133,6 @@
             assignStyles(rowNode, rowStyles);
 
             rowNode.append(...elements);
-            console.log(rowNode);
             return rowNode;
         };
 
@@ -290,7 +289,7 @@
             
             // compare grim to previous state
             if(isGrimoireStateUpdated(nextState)) {
-                // if updated, save and update server
+            // if updated, save and update server
                 state = nextState;
 
                 if(shouldSendGrimoire) sendGrimoire();
@@ -331,4 +330,5 @@
 
         // setup initial state without sending grimoire
         updateGrimoireState(false);
-    })();
+    }
+)();

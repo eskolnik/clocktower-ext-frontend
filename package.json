@@ -7,19 +7,27 @@
   "type": "module",
   "scripts": {
     "test": "test",
-    "start": "http-server",
+    "start": "",
     "sass": "sass -w sass:stylesheets",
-    "build-bookmarklet": "sh ./scripts/minify_bookmarklet.sh",
-    "build": "yarn build-bookmarklet"
+    "build-bookmarklet": "sh ./src/scripts/minify_bookmarklet.sh",
+    "dev": "yarn build-bookmarklet; parcel src/config.html src/video_overlay.html --port 8080",
+    "zip": "zip -j clocktower-ext-frontend.zip dist/*",
+    "build": "yarn build-bookmarklet; parcel build src/config.html src/video_overlay.html --public-url '.'",
+    "postbuild": "yarn zip"
   },
   "proxy": "http://localhost:3000",
   "author": "ezraskolnik@gmail.com",
   "license": "ISC",
   "dependencies": {
-    "eslint": "^7.32.0",
     "uglify-js": "^3.14.1"
   },
   "devDependencies": {
-    "webpack": "^5.51.1"
+    "@parcel/optimizer-data-url": "2.0.0-rc.0",
+    "@parcel/transformer-inline-string": "2.0.0-rc.0",
+    "@parcel/transformer-sass": "2.0.0-rc.0",
+    "eslint": "^7.32.0",
+    "fs": "0.0.1-security",
+    "parcel": "^2.0.0-rc.0",
+    "parcel-bundler": "^1.12.5"
   }
 }

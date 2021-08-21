@@ -6,8 +6,12 @@ import {
     getConfigState,
 } from "./viewer.js";
 import { EBS_CASTER, EBS_URL, PUBSUB_SEGMENT_VERSION, SECRET_LENGTH, COORDINATE_INCREMENT } from "./utils/constants.js";
+import fs from "fs";
 
-const twitch = window.Twitch.ext;
+let twitch; 
+
+twitch = window.Twitch?.ext || null;
+
 const RADIUS_INCREMENT = 5;
 
 let playerCount = 5;
@@ -52,70 +56,62 @@ function makeGrimoire() {
 
 updateGrimoireState(makeGrimoire());
 
-twitch.onContext((context, changed) => {
-    if(changed.includes("displayResolution")){
-        updateDisplayResolution(context.displayResolution);
-    }
-});
+function initializeTwitchDataHandlers(twitch) {
+    twitch.onContext((context, changed) => {
+        if(changed.includes("displayResolution")){
+            updateDisplayResolution(context.displayResolution);
+        }
+    });
    
-// Update config once it's available
-twitch.configuration.onChanged(() => {
-    if (twitch.configuration.broadcaster) {
-        handleReceiveConfigUpdate(twitch.configuration.broadcaster.content);
-    }
-});
-
-// Listen for pubsub messages
-twitch.listen("broadcast", (target, contentType, message) => {
-    const parsedMessage = JSON.parse(message);
-    if(parsedMessage.type === "config") {
-        updateConfigState(parsedMessage.settings);
-    }
-});
-
-
-const log = (...args) => {
-    console.log(...args);
-    twitch.rig.log(...args);
-};
-
-twitch.configuration.onChanged(() => {
-    log("config changed");
-    if (twitch.configuration.broadcaster) {
-        handleReceiveConfigUpdate(twitch.configuration.broadcaster.content);
-    }
-
-
-    // updateGrimoireState(dummyGrimoire);
-    updateDisplayResolution("845x480");
-});
-
-twitch.onAuthorized(auth => {
-    channelId = auth.channelId;
-    jwt = auth.token;
-
-    // fetch secretKey from backend if exists
-    const ebsEndpointUrl = `${EBS_URL}/${EBS_CASTER}/${channelId}`;
-    fetch( ebsEndpointUrl, {
-        method: "GET",
-        mode: "cors",
-        cache: "no-cache",
-        credentials: "same-origin", 
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + jwt
-        },
-        redirect: "follow", 
-        referrerPolicy: "no-referrer", 
-    }).then(response => response.json())
-        .then(data => {
-            if(data.secretKey) {
-                secretKey = data.secretKey;
-                updateSecretKeyDisplay(secretKey);
-            }
-        });
     
-});
+    // Listen for pubsub messages
+    twitch.listen("broadcast", (target, contentType, message) => {
+        const parsedMessage = JSON.parse(message);
+        if(parsedMessage.type === "config") {
+            updateConfigState(parsedMessage.settings);
+        }
+    });
+    
+    // Update config once it's available
+    twitch.configuration.onChanged(() => {
+        if (twitch.configuration.broadcaster) {
+            handleReceiveConfigUpdate(twitch.configuration.broadcaster.content);
+        }
+    
+        // updateGrimoireState(dummyGrimoire);
+        updateDisplayResolution("845x480");
+    });
+
+
+    twitch.onAuthorized(auth => {
+        channelId = auth.channelId;
+        jwt = auth.token;
+
+        // fetch secretKey from backend if exists
+        const ebsEndpointUrl = `${EBS_URL}/${EBS_CASTER}/${channelId}`;
+        fetch( ebsEndpointUrl, {
+            method: "GET",
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin", 
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + jwt
+            },
+            redirect: "follow", 
+            referrerPolicy: "no-referrer", 
+        }).then(response => response.json())
+            .then(data => {
+                if(data.secretKey) {
+                    secretKey = data.secretKey;
+                    updateSecretKeyDisplay(secretKey);
+                }
+            });
+    
+    });
+}
+
+if(twitch) initializeTwitchDataHandlers(twitch); 
 
 function sendSecretKey(secretKey) {
 // Save secret key to backend
@@ -140,7 +136,7 @@ function sendSecretKey(secretKey) {
 /**
  * Update the Twitch Config Service with the current values in state
  */
-function saveConfig() {
+function saveConfig(twitch) {
     const config = getConfigState();
     // set config in twitch service
     twitch.configuration.set("broadcaster", PUBSUB_SEGMENT_VERSION, JSON.stringify(config));
@@ -305,7 +301,7 @@ function handleSaveSecretClick(event) {
 document.getElementById("secretKeyGenerate").addEventListener("click", handleSecretGenerateClick);
 document.getElementById("secretKeySave").addEventListener("click", handleSaveSecretClick);
 
-// Handle Bookmarklet
+// Create Bookmarklet click and drag 
 const bookmarkletLink = document.getElementById("bookmarkletLink");
 
 // prevent clicking on link
@@ -313,6 +309,9 @@ bookmarkletLink.addEventListener("click", (event) => {
     event.preventDefault();
 });
 
-const minifiedBookmarkletJs = "javascript:(()=>{const extensionNodeId=\"botcTwitchExtension\";const configMenuNodeId=\"botcTwitchExtensionConfig\";const EBS_URL=\"https://9c8df32abce1.ngrok.io\";const localStorageKey=\"twitchBotcExtensionLoaded\";if(document.getElementById(extensionNodeId)||localStorage.getItem(localStorageKey)){return}localStorage.setItem(localStorageKey,true);let state={session:\"\",playerId:null,isHost:false,players:[],bluffs:[],edition:{},secretKey:\"\",isExtensionActive:false,menuVisible:false};function grimoireToJson(data){return JSON.stringify({session:data.session,playerId:data.playerId,isHost:data.isHost,players:data.players,bluffs:data.bluffs,edition:data.edition})}function wrappedFetch(url,body){return fetch(url,{method:\"POST\",mode:\"cors\",cache:\"no-cache\",credentials:\"same-origin\",headers:{\"Content-Type\":\"application/json\"},redirect:\"follow\",referrerPolicy:\"no-referrer\",body:body})}function sendGrimoire(){const url=EBS_URL+\"/grimoire/\"+state.secretKey;const body=grimoireToJson(state);wrappedFetch(url,body).then(console.log)}function sendSession(){const url=EBS_URL+\"/session/\"+state.secretKey;const{session,playerId,isExtensionActive}=state;const body={session:session,playerId:playerId,isActive:isExtensionActive};wrappedFetch(url,JSON.stringify(body)).then(console.log)}function assignStyles(node,styles){Object.assign(node.style,styles)}const controlsNode=document.getElementById(\"controls\");const extensionNode=document.createElement(\"div\");extensionNode.id=extensionNodeId;const extensionStyles={position:\"absolute\",width:\"40px\",height:\"40px\",paddingTop:\"11px\",transform:\"translateX(calc(-100% - 3px)\"};assignStyles(extensionNode,extensionStyles);const svgNode=document.createElementNS(\"http://www.w3.org/2000/svg\",\"svg\");svgNode.setAttribute(\"width\",\"40\");svgNode.setAttribute(\"height\",\"40\");svgNode.setAttribute(\"viewBox\",\"0 0 100 100\");svgNode.innerHTML='<path d=\"M5.7 0L1.4 10.985V55.88h15.284V64h8.597l8.12-8.12h12.418l16.716-16.716V0H5.7zm51.104 36.3L47.25 45.85H31.967l-8.12 8.12v-8.12H10.952V5.73h45.85V36.3zM47.25 16.716v16.716h-5.73V16.716h5.73zm-15.284 0v16.716h-5.73V16.716h5.73z\" fill=\"#6441a4\" fill-rule=\"evenodd\"></path>';extensionNode.appendChild(svgNode);const configMenuNode=document.createElement(\"div\");configMenuNode.id=configMenuNodeId;const configMenuStyles={width:\"300px\",height:\"320px\",background:\"rgb(200, 181, 234\",color:\"black\",fontSize:\"16px\",overflow:\"wrap\",padding:\"10px\",border:\"10px solid #6441a4\",borderRadius:\"30px\",transform:\"translateX(-100%)\",display:\"none\",textAlign:\"left\"};assignStyles(configMenuNode,configMenuStyles);const createConfigMenuRow=(...elements)=>{const rowNode=document.createElement(\"div\");const rowStyles={display:\"flex\",flexDirection:\"row\",justifyContents:\"space-between\"};assignStyles(rowNode,rowStyles);rowNode.append(...elements);console.log(rowNode);return rowNode};const secretKeyInstructionsNode=document.createElement(\"p\");secretKeyInstructionsNode.innerHTML=\"Paste the secret key you generated on the extension config page. If you're not streaming, you don't need to worry about this.\";assignStyles(secretKeyInstructionsNode,{marginTop:\"0px\"});const secretKeyInputNode=document.createElement(\"input\");secretKeyInputNode.type=\"password\";secretKeyInputNode.id=\"twitch-config-channelInput\";const secretKeyInputStyle={width:\"50%\",marginRight:\"10px\"};assignStyles(secretKeyInputNode,secretKeyInputStyle);const secretKeyLabelNode=document.createElement(\"label\");secretKeyLabelNode.htmlFor=\"twitch-config-channelInput\";secretKeyLabelNode.innerHTML=\"Secret Key:\";const secretKeyLabelStyles={color:\"black\",fontSize:\"16px\",paddingRight:\"5px\"};assignStyles(secretKeyLabelNode,secretKeyLabelStyles);const secretKeyButtonNode=document.createElement(\"button\");secretKeyButtonNode.innerHTML=\"Save\";secretKeyButtonNode.addEventListener(\"click\",event=>{event.preventDefault();state.secretKey=secretKeyInputNode.value;sendSession()});const secretKeyRow=createConfigMenuRow(secretKeyLabelNode,secretKeyInputNode,secretKeyButtonNode);configMenuNode.appendChild(secretKeyInstructionsNode);configMenuNode.appendChild(secretKeyRow);const enableInstructionsNode=document.createElement(\"p\");enableInstructionsNode.innerHTML=\"Click the checkbox below to enable sending the grimoire to Twitch. Note that you must be in a live game sesion for this to work.\";configMenuNode.appendChild(enableInstructionsNode);const toggleListenNode=document.createElement(\"input\");toggleListenNode.id=\"twitch-config-listenToggle\";toggleListenNode.type=\"checkbox\";const toggleListenNodeStyles={transform:\"translateX(50%) scale(2)\"};assignStyles(toggleListenNode,toggleListenNodeStyles);toggleListenNode.addEventListener(\"change\",e=>{if(e.target.checked){state.isExtensionActive=true;updateGrimoireState();startWatchingGrimoire()}else{state.isExtensionActive=false;stopWatchingGrimoire()}});const toggleListenLabel=document.createElement(\"label\");toggleListenLabel.htmlFor=\"twitch-config-listenToggle\";toggleListenLabel.style.color=\"black\";toggleListenLabel.innerHTML=\"Enable: \";const closeButtonNode=document.createElement(\"button\");closeButtonNode.innerHTML=\"Close\";assignStyles(closeButtonNode,{marginLeft:\"auto\",marginRight:\"10px\"});const activationRow=createConfigMenuRow(toggleListenLabel,toggleListenNode,closeButtonNode);configMenuNode.appendChild(activationRow);extensionNode.appendChild(configMenuNode);controlsNode.prepend(extensionNode);function toggleConfigMenu(){state.menuVisible=!state.menuVisible;const configMenu=document.getElementById(configMenuNodeId);configMenu.style.display=state.menuVisible?\"block\":\"none\"}closeButtonNode.addEventListener(\"click\",toggleConfigMenu);function mapPlayerToObject(player){return{role:typeof player.role===\"string\"?player.role:\"\",name:player.name,id:player.id}}function parsePlayers(playersJson){return JSON.parse(playersJson).map(mapPlayerToObject)}function parseSession(sessionJson){const s=JSON.parse(sessionJson);return{isHost:!s[0],session:s[1]}}function isGrimoireStateUpdated(nextState){return grimoireToJson(state)!==grimoireToJson(nextState)}const intervalTimer=5*1e3;let intervalId=-1;function updateGrimoireState(shouldSendGrimoire=true){const localSession=localStorage.getItem(\"session\");const nextSession=localSession?parseSession(localSession):{session:null,isHost:false};const nextPlayers=parsePlayers(localStorage.getItem(\"players\"));const nextEdition={};const nextState={...state,session:nextSession.session,playerId:localStorage.getItem(\"playerId\"),isHost:nextSession.isHost,players:nextPlayers,edition:nextEdition};if(isGrimoireStateUpdated(nextState)){state=nextState;if(shouldSendGrimoire)sendGrimoire()}}function startWatchingGrimoire(){console.log(\"watching grimoire\");state.isExtensionActive=true;sendSession();intervalId=setInterval(updateGrimoireState,intervalTimer)}function stopWatchingGrimoire(){state.isExtensionActive=false;sendSession();clearInterval(intervalId);intervalId=-1}svgNode.addEventListener(\"click\",()=>{toggleConfigMenu()});window.addEventListener(\"beforeunload\",()=>{state.isExtensionActive=false;const url=EBS_URL+\"/session/\"+state.secretKey;const{session,playerId,players}=state;const body={session:session,playerId:playerId,isActive:false,players:players};navigator.sendBeacon(url,JSON.stringify(body));localStorage.removeItem(localStorageKey)});updateGrimoireState(false)})();";
+// Construct bookmarklet js
+const minifiedBookmarkletJs = fs.readFileSync(__dirname + "/bookmarklet/bookmarklet.min.js", "utf8");
+const minifiedBookmarkletWithUrl = minifiedBookmarkletJs.replaceAll("EBS_PLACEHOLDER_URL", EBS_URL);
+const wrappedBookmarklet = `javascript:${minifiedBookmarkletWithUrl}`;
 
-bookmarkletLink.href = minifiedBookmarkletJs;
+bookmarkletLink.href = wrappedBookmarklet;

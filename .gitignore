@@ -4,3 +4,7 @@ images
 
 yarn-error.log
 *.zip
+
+.parcel-cache
+.cache
+dist
