@@ -12,7 +12,7 @@ const COORDINATE_INCREMENT = 0.5;
 const TOKEN_CLASSNAME = "clockToken";
 const ABILITY_CLASSNAME = "ability";
 
-const EBS_URL = "http://ec2-3-13-111-40.us-east-2.compute.amazonaws.com";
+const EBS_URL = "https://www.paperweightclocktower.live";
 const EBS_GRIMOIRE = "grimoire";
 const EBS_CASTER = "broadcaster";
 
