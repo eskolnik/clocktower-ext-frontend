@@ -39,8 +39,6 @@ function createOverlay(players, radius, tokenSize, displayResolution) {
     radius ||= state.config.radius;
     tokenSize ||= state.config.tokenSize;
     displayResolution ||= state.context.displayResolution;
-
-    console.log("draw", players, radius, tokenSize, displayResolution);
     
     const centerNode = document.getElementById("center");
     const playerCount = players.length;

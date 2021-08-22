@@ -63,7 +63,6 @@ twitch.listen("broadcast", (target, contentType, message) => {
     }
 
     if(parsedMessage.type === "grimoire") {
-        console.log("got grim", parsedMessage.grimoire);
         updateOverlayActiveState(parsedMessage.isActive);
         updateGrimoireState(parsedMessage.grimoire);
     }

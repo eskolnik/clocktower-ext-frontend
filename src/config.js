@@ -130,7 +130,7 @@ function sendSecretKey(secretKey) {
         redirect: "follow", 
         referrerPolicy: "no-referrer", 
         body: body
-    }).then(console.log); 
+    }); 
 }
 
 /**
@@ -138,11 +138,12 @@ function sendSecretKey(secretKey) {
  */
 function saveConfig(twitch) {
     const config = getConfigState();
+
     // set config in twitch service
     twitch.configuration.set("broadcaster", PUBSUB_SEGMENT_VERSION, JSON.stringify(config));
-
+    
     // send updates to active viewers
-    twitch.send("broadcast", "application/json", {type: "config", settings: config});
+    twitch.send("broadcast", "application/json", JSON.stringify({type: "config", settings: config}));
 }
 
 // Move overlay up
@@ -252,7 +253,7 @@ document
     .addEventListener("input", handleSetBackground);
 
 // Handle saving settings
-document.getElementById("button-save").addEventListener("click", saveConfig);
+document.getElementById("button-save").addEventListener("click", () => saveConfig(twitch));
 
 // Handle Secret Key
 function getSecretKeyInput(){
