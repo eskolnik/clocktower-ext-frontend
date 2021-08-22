@@ -7,7 +7,7 @@
   "type": "module",
   "scripts": {
     "test": "test",
-    "start": "",
+    "start": "http-server ./dist",
     "sass": "sass -w sass:stylesheets",
     "build-bookmarklet": "sh ./src/scripts/minify_bookmarklet.sh",
     "dev": "yarn build-bookmarklet; parcel src/config.html src/video_overlay.html --port 8080",
