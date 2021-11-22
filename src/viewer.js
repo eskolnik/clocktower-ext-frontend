@@ -16,7 +16,8 @@ let state = {
     },
     grimoire: {
         players: [],
-        edition: {}
+        edition: {},
+        roles: []
     },
     context: {
         displayResolution: "1920x1080",
@@ -62,7 +63,6 @@ function createOverlay(players, radius, tokenSize, displayResolution) {
         tokenContainer.className = TOKEN_CLASSNAME;
         tokenContainer.style.transform = `translate(-50%, -50%) rotate(${angle}deg) translateY(-${displayRadius}px) rotate(-${angle}deg)`;
 
-        // tokenElement.className=MOON_CLASS+"-14";
         tokenContainer.style.height = `${displayTokenSize}px`;
         tokenContainer.style.width = `${displayTokenSize}px`;
 
@@ -116,7 +116,8 @@ function createAbilityReminder(player) {
  * @returns {String} Ability description
  */
 function getRoleAbility(roleName) {
-    const role = baseRoles.find(r => r.id === roleName);
+    // Look for role in state first, then baseRoles
+    const role = state.grimoire.roles.find(r => r.id === roleName) || baseRoles.find(r => r.id === roleName);
     if (!role) {
         return false;
     }
@@ -137,6 +138,7 @@ function refreshDisplay() {
 // *****************
 
 function handleReceiveConfigUpdate (newConfig) {
+    console.log(newConfig);
     try {
         const config = JSON.parse(newConfig);
         if (typeof config === "object") {
@@ -176,10 +178,11 @@ function updateOverlayActiveState(isActive) {
 
 function updateGrimoireState(grimoire) {
     // validateGrimoire(grimoire); // TODO
-    const {players, edition} = grimoire;
+    const {players, edition, roles} = grimoire;
 
     state.grimoire.players = players;
     state.grimoire.edition = edition;
+    state.grimoire.roles = roles;
 
     refreshDisplay();
 }

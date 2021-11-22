@@ -23,6 +23,7 @@
             players: [],
             bluffs: [],
             edition: {},
+            roles: [],
             secretKey: "",
             isExtensionActive: false,
             menuVisible: false
@@ -36,7 +37,8 @@
                 isHost: data.isHost,
                 players: data.players,
                 bluffs: data.bluffs,
-                edition: data.edition
+                edition: data.edition,
+                roles: data.roles
             });
         }
 
@@ -251,14 +253,23 @@
             };
         }
         
-        // parse players list
-        function parsePlayers (playersJson) { return JSON.parse(playersJson).map(mapPlayerToObject); }
+        // Parse the bits of localstorage we care about
+        function parsePlayers (playersJson) { 
+            return JSON.parse(playersJson).map(mapPlayerToObject); 
+        }
         function parseSession (sessionJson) {
             const s = JSON.parse(sessionJson);
             return {
                 isHost: !s[0],
                 session: s[1]
             };
+        }
+        function parseEdition(editionJson) {
+            return JSON.parse(editionJson);
+
+        }
+        function parseRoles(rolesJson) {
+            return JSON.parse(rolesJson);
         }
 
         // Test if two grimoire states are equivalent
@@ -276,7 +287,8 @@
             
             const nextSession = localSession ? parseSession(localSession) : {session: null, isHost: false};
             const nextPlayers = parsePlayers(localStorage.getItem("players"));
-            const nextEdition = {};
+            const nextEdition = parseEdition(localStorage.edition);
+            const nextRoles = parseRoles(localStorage.roles);
 
             const nextState = {
                 ...state, 
@@ -285,6 +297,7 @@
                 isHost: nextSession.isHost,
                 players: nextPlayers,
                 edition: nextEdition,
+                roles: nextRoles
             };
             
             // compare grim to previous state
@@ -297,7 +310,6 @@
         }
         
         function startWatchingGrimoire () {
-            console.log("watching grimoire");
             state.isExtensionActive = true;
             sendSession();
             intervalId = setInterval(updateGrimoireState, intervalTimer);
