@@ -10,11 +10,14 @@ const WINDOW_MAX = 100;
 const COORDINATE_INCREMENT = 0.5;
 
 const TOKEN_CLASSNAME = "clockToken";
+const DEV_TOKEN_CLASSNAME = "clockToken-dev";
 const ABILITY_CLASSNAME = "ability";
 
-const EBS_URL = "https://www.paperweightclocktower.live";
-const EBS_GRIMOIRE = "grimoire";
-const EBS_CASTER = "broadcaster";
+// const EBS_URL = "https://www.paperweightclocktower.live";
+const EBS_URL = "http://localhost:3000";
+const EBS_GRIMOIRE = "grimoires";
+const EBS_CASTER = "broadcasters";
+const EBS_GAME_SESSION = "game_sessions";
 
 const SECRET_LENGTH = 32;
 
@@ -50,6 +53,7 @@ export {
     EBS_URL,
     EBS_GRIMOIRE,
     EBS_CASTER,
+    EBS_GAME_SESSION,
     SECRET_LENGTH,
     PUBSUB_SEGMENT_VERSION
 };

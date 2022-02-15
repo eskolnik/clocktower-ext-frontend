@@ -4,7 +4,11 @@
   height: 100%;
 }
 
+.clockToken-dev {
+}
+
 .clockToken {
+  background-color: red;
   border-radius: 50%;
   position: absolute;
   margin: 0px;

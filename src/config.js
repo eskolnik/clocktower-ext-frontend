@@ -5,7 +5,7 @@ import {
     updateDisplayResolution,
     getConfigState,
 } from "./viewer.js";
-import { EBS_CASTER, EBS_URL, PUBSUB_SEGMENT_VERSION, SECRET_LENGTH, COORDINATE_INCREMENT } from "./utils/constants.js";
+import { EBS_CASTER, EBS_URL, EBS_GAME_SESSION, PUBSUB_SEGMENT_VERSION, SECRET_LENGTH, COORDINATE_INCREMENT } from "./utils/constants.js";
 import fs from "fs";
 
 let twitch; 
@@ -50,7 +50,9 @@ function makeGrimoire() {
             {role: "baron"},
             {role: "spy"},
         ].slice(0, playerCount),
-        isActive: true
+        // isActive: true
+        edition: {},
+        roles: [],
     };
 }
 
@@ -69,6 +71,10 @@ function initializeTwitchDataHandlers(twitch) {
         const parsedMessage = JSON.parse(message);
         if(parsedMessage.type === "config") {
             updateConfigState(parsedMessage.settings);
+        }
+
+        if(parsedMessage.type === "grimoire") {
+            console.log("grimoire received", parsedMessage);
         }
     });
     
@@ -312,7 +318,9 @@ bookmarkletLink.addEventListener("click", (event) => {
 
 // Construct bookmarklet js
 const minifiedBookmarkletJs = fs.readFileSync(__dirname + "/bookmarklet/bookmarklet.min.js", "utf8");
+
 const minifiedBookmarkletWithUrl = minifiedBookmarkletJs.replaceAll("EBS_PLACEHOLDER_URL", EBS_URL);
+
 const wrappedBookmarklet = `javascript:${minifiedBookmarkletWithUrl}`;
 
 bookmarkletLink.href = wrappedBookmarklet;

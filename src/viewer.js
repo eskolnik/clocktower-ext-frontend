@@ -2,8 +2,11 @@ import baseRoles from "./utils/baseRoles.js";
 import CONSTANTS from "./utils/constants.js";
 import validateConfig from "./utils/validateConfig.js";
 
+console.log("env: ", process.env.NODE_ENV);
+
 const {
     TOKEN_CLASSNAME,
+    DEV_TOKEN_CLASSNAME,
     ABILITY_CLASSNAME
 } = CONSTANTS;
 
@@ -54,20 +57,30 @@ function createOverlay(players, radius, tokenSize, displayResolution) {
     
     const displayTokenSize = displayHeight * tokenSize * 0.01;
     const displayRadius = ((displayHeight) / 2) * radius/200;
-    
+
+    const tokenClasses = [TOKEN_CLASSNAME];
+    if (process.env.NODE_ENV === "development") {
+        tokenClasses.push(DEV_TOKEN_CLASSNAME);
+    }
+    const tokenClassName = tokenClasses.join(" ");
+
+    // console.log(players);
     for(let i = 0; i < playerCount; i++) {
         const angle = angleIncrement * i;
         
         //set up token container div in circle
         const tokenContainer = document.createElement("div");
-        tokenContainer.className = TOKEN_CLASSNAME;
+        tokenContainer.className = tokenClassName;
         tokenContainer.style.transform = `translate(-50%, -50%) rotate(${angle}deg) translateY(-${displayRadius}px) rotate(-${angle}deg)`;
 
         tokenContainer.style.height = `${displayTokenSize}px`;
         tokenContainer.style.width = `${displayTokenSize}px`;
 
         const player = players[i];
-        const abilityNode = createAbilityReminder(player);
+        // console.log(player);
+        const abilityNode = createAbilityReminder(player);  
+        // console.log(abilityNode);
+        
         tokenContainer.appendChild(abilityNode);
 
         centerNode.appendChild(tokenContainer);
@@ -97,7 +110,7 @@ function createAbilityReminder(player) {
     }
     const role = player.role;
     const reminderText = getRoleAbility(role);
-
+    // console.log(role, reminderText);
     if(!reminderText) {
         return null;
     }
@@ -116,8 +129,9 @@ function createAbilityReminder(player) {
  * @returns {String} Ability description
  */
 function getRoleAbility(roleName) {
-    // Look for role in state first, then baseRoles
-    const role = state.grimoire.roles.find(r => r.id === roleName) || baseRoles.find(r => r.id === roleName);
+    // Look for role in base roles first, then in custom roles
+    // console.log(state.grimoire.roles);
+    const role = baseRoles.find(r => r.id === roleName) || state.grimoire.roles.find(r => r.id === roleName);
     if (!role) {
         return false;
     }
@@ -138,7 +152,7 @@ function refreshDisplay() {
 // *****************
 
 function handleReceiveConfigUpdate (newConfig) {
-    console.log(newConfig);
+    console.log("receieved new config", newConfig);
     try {
         const config = JSON.parse(newConfig);
         if (typeof config === "object") {

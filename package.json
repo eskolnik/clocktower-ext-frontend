@@ -10,7 +10,7 @@
     "start": "http-server ./dist",
     "sass": "sass -w sass:stylesheets",
     "build-bookmarklet": "sh ./src/scripts/minify_bookmarklet.sh",
-    "dev": "yarn build-bookmarklet; parcel src/config.html src/video_overlay.html --port 8080",
+    "dev": "yarn build-bookmarklet; NODE_ENV=development parcel src/config.html src/video_overlay.html --port 8080",
     "zip": "zip -j clocktower-ext-frontend.zip dist/*",
     "build": "yarn build-bookmarklet; parcel build src/config.html src/video_overlay.html --public-url '.'",
     "postbuild": "yarn zip"

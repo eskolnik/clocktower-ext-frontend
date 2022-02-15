@@ -21,6 +21,7 @@ twitch.onContext((context, changed) => {
 // Update config once it's available
 twitch.configuration.onChanged(() => {
     if (twitch.configuration.broadcaster) {
+        console.log("initial config", twitch.configuration.broadcaster.content);
         handleReceiveConfigUpdate(twitch.configuration.broadcaster.content);
     }
 });
@@ -30,7 +31,7 @@ twitch.onAuthorized(auth => {
     channelId = auth.channelId;
     jwt = auth.token;
 
-    const ebsEndpointUrl = `${EBS_URL}/${EBS_GRIMOIRE}`;
+    const ebsEndpointUrl = `${EBS_URL}/${EBS_GRIMOIRE}/${channelId}`;
     try {
         fetch(ebsEndpointUrl, {
             method: "GET",
@@ -46,6 +47,7 @@ twitch.onAuthorized(auth => {
         })
             .then(response => response.json())
             .then(data => {
+                console.log("loaded grimoire data", data);
                 data.isActive && updateOverlayActiveState(data.isActive);
                 data.grimoire && updateGrimoireState(data.grimoire);
             })
@@ -63,6 +65,7 @@ twitch.listen("broadcast", (target, contentType, message) => {
     }
 
     if(parsedMessage.type === "grimoire") {
+        console.log("grimoire received", parsedMessage);
         updateOverlayActiveState(parsedMessage.isActive);
         updateGrimoireState(parsedMessage.grimoire);
     }

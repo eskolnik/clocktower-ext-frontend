@@ -38,7 +38,8 @@
                 players: data.players,
                 bluffs: data.bluffs,
                 edition: data.edition,
-                roles: data.roles
+                roles: data.roles,
+                secretKey: data.secretKey
             });
         }
 
@@ -47,9 +48,9 @@
                 method: "POST",
                 mode: "cors",
                 cache: "no-cache",
-                credentials: "same-origin", 
                 headers: {
                     "Content-Type": "application/json"
+                    // "Content-Type": "text/plain"
                 },
                 redirect: "follow", // manual, *follow, error
                 referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
@@ -58,7 +59,8 @@
         }
 
         function sendGrimoire(){
-            const url = EBS_URL + "/grimoire/"+state.secretKey;
+            // const url = `${EBS_URL}/grimoires/${state.secretKey}`;
+            const url = `${EBS_URL}/grimoires/`;
 
             const body = grimoireToJson(state);
 
@@ -66,9 +68,12 @@
         }
 
         function sendSession() {
-            const url = EBS_URL + "/session/" + state.secretKey;
-            const { session, playerId, isExtensionActive } = state;
-            const body = {session, playerId, isActive: isExtensionActive};
+            // const url = EBS_URL + "/sessions/" + state.secretKey;
+            const url = `${EBS_URL}/sessions/`;
+            
+            const { session, playerId, isExtensionActive, secretKey } = state;
+            const body = {session, playerId, isActive: isExtensionActive, secretKey};
+            console.log("body", body);
 
             wrappedFetch(url, JSON.stringify(body)).then(console.log); 
         }
