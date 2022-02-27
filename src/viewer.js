@@ -2,8 +2,6 @@ import baseRoles from "./utils/baseRoles.js";
 import CONSTANTS from "./utils/constants.js";
 import validateConfig from "./utils/validateConfig.js";
 
-console.log("env: ", process.env.NODE_ENV);
-
 const {
     TOKEN_CLASSNAME,
     DEV_TOKEN_CLASSNAME,

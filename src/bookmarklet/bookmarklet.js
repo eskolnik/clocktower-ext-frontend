@@ -59,23 +59,20 @@
         }
 
         function sendGrimoire(){
-            // const url = `${EBS_URL}/grimoires/${state.secretKey}`;
             const url = `${EBS_URL}/grimoires/`;
 
             const body = grimoireToJson(state);
 
-            wrappedFetch(url, body).then(console.log); 
+            wrappedFetch(url, body);
         }
 
         function sendSession() {
-            // const url = EBS_URL + "/sessions/" + state.secretKey;
             const url = `${EBS_URL}/sessions/`;
             
             const { session, playerId, isExtensionActive, secretKey } = state;
             const body = {session, playerId, isActive: isExtensionActive, secretKey};
-            console.log("body", body);
 
-            wrappedFetch(url, JSON.stringify(body)).then(console.log); 
+            wrappedFetch(url, JSON.stringify(body)); 
         }
 
         function assignStyles(node, styles) {

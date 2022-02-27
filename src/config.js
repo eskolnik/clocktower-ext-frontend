@@ -319,8 +319,10 @@ bookmarkletLink.addEventListener("click", (event) => {
 // Construct bookmarklet js
 const minifiedBookmarkletJs = fs.readFileSync(__dirname + "/bookmarklet/bookmarklet.min.js", "utf8");
 
+// Inject the real EBS url
 const minifiedBookmarkletWithUrl = minifiedBookmarkletJs.replaceAll("EBS_PLACEHOLDER_URL", EBS_URL);
 
+// Format for use as a bookmark
 const wrappedBookmarklet = `javascript:${minifiedBookmarkletWithUrl}`;
 
 bookmarkletLink.href = wrappedBookmarklet;
