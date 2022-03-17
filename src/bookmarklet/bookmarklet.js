@@ -6,16 +6,22 @@
 
         const EBS_URL="EBS_PLACEHOLDER_URL";
 
-        const localStorageKey = "twitchBotcExtensionLoaded";
+        const localStorageExtensionLoadedKey = "twitchBotcExtensionLoaded"; 
+        const localStorageSecretKey = "twitchBotcExtensionSecret";
 
         // Only load one instance of extension at a time
-        if(document.getElementById(extensionNodeId) ) {
+        if(document.getElementById(extensionNodeId) || localStorage.getItem(localStorageExtensionLoadedKey)) {
             return;
         }
 
-        localStorage.setItem(localStorageKey, true);
+        // Set the extension flag in localstorage to avoid loading the extension twice
+        localStorage.setItem(localStorageExtensionLoadedKey, true);
 
-        // initialize state
+        // Check for secret in localstorage
+        const secretKeyFromLocalStorage = localStorage.getItem(localStorageSecretKey);
+
+
+        // Initialize state
         let state = {
             session: "",
             playerId: null,
@@ -24,7 +30,7 @@
             bluffs: [],
             edition: {},
             roles: [],
-            secretKey: "",
+            secretKey: secretKeyFromLocalStorage || "",
             isExtensionActive: false,
             menuVisible: false
         };
@@ -144,7 +150,7 @@
         //  SECRET KEY INPUT
         // ---------------------------------------------------------------------------------
         const secretKeyInstructionsNode = document.createElement("p");
-        secretKeyInstructionsNode.innerHTML = "Paste the secret key you generated on the extension config page. If you're not streaming, you don't need to worry about this.";
+        secretKeyInstructionsNode.innerHTML = "Paste the secret key you generated on the extension config page here.";
         assignStyles(secretKeyInstructionsNode, {
             marginTop: "0px"
         });
@@ -179,6 +185,7 @@
             event.preventDefault();
 
             state.secretKey = secretKeyInputNode.value;
+            localStorage.setItem(localStorageSecretKey, secretKeyInputNode.value);
 
             sendSession();
         });
@@ -339,7 +346,7 @@
 
             navigator.sendBeacon(url, JSON.stringify(body));
 
-            localStorage.removeItem(localStorageKey);
+            localStorage.removeItem(localStorageExtensionLoadedKey);
         });
 
         // setup initial state without sending grimoire
