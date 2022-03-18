@@ -75,9 +75,10 @@ function createOverlay(players, radius, tokenSize, displayResolution) {
         tokenContainer.style.width = `${displayTokenSize}px`;
 
         const player = players[i];
-        // console.log(player);
-        const abilityNode = createAbilityReminder(player);  
-        // console.log(abilityNode);
+
+        const abilityPlacement = i < playerCount / 2 ? "right" : "left";
+
+        const abilityNode = createAbilityReminder(player, abilityPlacement);  
         
         tokenContainer.appendChild(abilityNode);
 
@@ -99,22 +100,24 @@ function moveCenter(x, y) {
  * Create a ability text div for the player at a given index
  * 
  * @param {Object} player the player object to create a reminder token for 
+ * @param {String} placement which side to show the ability - one of "left" or "right"
  * @returns {Element} ability node
  */
-function createAbilityReminder(player) {
-    
+function createAbilityReminder(player, placement) {
     if(!player) {
         return null;
     }
+
     const role = player.role;
     const reminderText = getRoleAbility(role);
-    // console.log(role, reminderText);
     if(!reminderText) {
         return null;
     }
 
     const abilityNode = document.createElement("div");
-    abilityNode.className = ABILITY_CLASSNAME;
+
+    const placementClassName = ["left","right"].includes(placement) ? placement : "left";
+    abilityNode.className = `${ABILITY_CLASSNAME} ${ABILITY_CLASSNAME}-${placementClassName}`;
     abilityNode.innerHTML = reminderText;
     
     return abilityNode;

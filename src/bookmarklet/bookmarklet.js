@@ -159,6 +159,9 @@
         secretKeyInputNode.type="password";
         secretKeyInputNode.id = "twitch-config-channelInput";
 
+        // set the secret input to the value from localstorage
+        secretKeyInputNode.value = state.secretKey;
+
         const secretKeyInputStyle = {
             width: "50%",
             marginRight: "10px"
@@ -297,7 +300,7 @@
             const nextSession = localSession ? parseSession(localSession) : {session: null, isHost: false};
             const nextPlayers = parsePlayers(localStorage.getItem("players"));
             const nextEdition = parseEdition(localStorage.edition);
-            const nextRoles = parseRoles(localStorage.roles);
+            const nextRoles = localStorage.roles ? parseRoles(localStorage.roles) : [];
 
             const nextState = {
                 ...state, 

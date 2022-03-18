@@ -70,7 +70,6 @@
     font-family: "Roboto Condensed", sans-serif;
     font-size: medium;
     justify-items: center;
-    left: 120%;
     opacity: 0;
     padding: 10px 10px;
     pointer-events: none;
@@ -86,10 +85,27 @@
       border: 10px solid transparent;
       width: 0;
       height: 0;
-      border-right-color: black;
       position: absolute;
       margin-right: 2px;
-      right: 100%;
+    }
+
+    // align ability boxes where they will have the most space
+    &-right {
+      right: 120%;
+
+      &:before {
+        left: 100%;
+        border-left-color: black;
+      }
+    }
+
+    &-left {
+      left: 120%;
+
+      &:before {
+        right: 100%;
+        border-right-color: black;
+      }
     }
   }
 
