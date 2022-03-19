@@ -1,7 +1,7 @@
 {
   "name": "clocktower-ext-frontend",
   "version": "0.0.1",
-  "description": "clocktower twitch ext",
+  "description": "Twitch Extension for Blood on the Clocktower",
   "main": "index.js",
   "private": "true",
   "type": "module",
