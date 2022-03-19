@@ -4,22 +4,22 @@
         const extensionNodeId = "botcTwitchExtension";
         const configMenuNodeId = "botcTwitchExtensionConfig";
 
+        // This string will be replaced with the real backend url during the build process
         const EBS_URL="EBS_PLACEHOLDER_URL";
 
         const localStorageExtensionLoadedKey = "twitchBotcExtensionLoaded"; 
         const localStorageSecretKey = "twitchBotcExtensionSecret";
 
         // Only load one instance of extension at a time
-        if(document.getElementById(extensionNodeId) || localStorage.getItem(localStorageExtensionLoadedKey)) {
+        if(document.getElementById(extensionNodeId) || localStorage.getItem(localStorageExtensionLoadedKey) === "true") {
             return;
         }
 
         // Set the extension flag in localstorage to avoid loading the extension twice
-        localStorage.setItem(localStorageExtensionLoadedKey, true);
+        localStorage.setItem(localStorageExtensionLoadedKey, "true");
 
         // Check for secret in localstorage
         const secretKeyFromLocalStorage = localStorage.getItem(localStorageSecretKey);
-
 
         // Initialize state
         let state = {
