@@ -62,7 +62,6 @@ function createOverlay(players, radius, tokenSize, displayResolution) {
     }
     const tokenClassName = tokenClasses.join(" ");
 
-    // console.log(players);
     for(let i = 0; i < playerCount; i++) {
         const angle = angleIncrement * i;
         
@@ -131,7 +130,6 @@ function createAbilityReminder(player, placement) {
  */
 function getRoleAbility(roleName) {
     // Look for role in base roles first, then in custom roles
-    // console.log(state.grimoire.roles);
     const role = baseRoles.find(r => r.id === roleName) || state.grimoire.roles.find(r => r.id === roleName);
     if (!role) {
         return false;
@@ -147,23 +145,21 @@ function refreshDisplay() {
     }
 }
 
-
 // *****************
 // * STATE UPDATES *
 // *****************
 
 function handleReceiveConfigUpdate (newConfig) {
-    console.log("receieved new config", newConfig);
     try {
         const config = JSON.parse(newConfig);
         if (typeof config === "object") {
             updateConfigState(config);
         }
         else {
-            console.log("Invalid Config", config);
+            console.error("Invalid configuration", config);
         }
     } catch (err) {
-        console.log("Unable to parse config", newConfig, err);
+        console.error("Unable to parse configuration", newConfig, err);
     }
 }
 

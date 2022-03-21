@@ -14,7 +14,6 @@ const DEV_TOKEN_CLASSNAME = "clockToken-dev";
 const ABILITY_CLASSNAME = "ability";
 
 const EBS_URL = "https://www.paperweightclocktower.live";
-// const EBS_URL = "http://localhost:3000";
 const EBS_GRIMOIRE = "grimoires";
 const EBS_CASTER = "broadcasters";
 const EBS_GAME_SESSION = "game_sessions";

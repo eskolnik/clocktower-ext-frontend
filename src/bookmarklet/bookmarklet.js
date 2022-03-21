@@ -4,8 +4,9 @@
         const extensionNodeId = "botcTwitchExtension";
         const configMenuNodeId = "botcTwitchExtensionConfig";
 
-        // This string will be replaced with the real backend url during the build process
-        const EBS_URL="EBS_PLACEHOLDER_URL";
+        // placeholder strings will be replaced with the real values during the build process
+        const EBS_URL="EBS_URL_PLACEHOLDER";
+        const VERSION="VERSION_PLACEHOLDER";
 
         const localStorageExtensionLoadedKey = "twitchBotcExtensionLoaded"; 
         const localStorageSecretKey = "twitchBotcExtensionSecret";
@@ -199,7 +200,7 @@
         configMenuNode.appendChild(secretKeyRow);
         
         // -----------------------------------------------------------------------------------
-        //  ENABLE GRIMOIRE TRACKING
+        // GRIMOIRE TRACKING CONTROLS
         // -----------------------------------------------------------------------------------
         const enableInstructionsNode = document.createElement("p");
         enableInstructionsNode.innerHTML = "Click the checkbox below to enable sending the grimoire to Twitch. Note that you must be in a live game sesion for this to work.";
@@ -253,6 +254,22 @@
         }
 
         closeButtonNode.addEventListener("click", toggleConfigMenu);
+
+        // ------------------------------------------------------------------
+        // VERSION INDICATOR
+        // ------------------------------------------------------------------
+
+        const versionIndicatorNode = document.createElement("p");
+        versionIndicatorNode.innerHTML = `v${VERSION}`;
+
+        assignStyles(versionIndicatorNode, {
+            color: "#6441a4",
+            margin: "20px 15px 5px 10px",
+            textAlign: "right",
+            fontWeight: "bold"
+        });
+
+        configMenuNode.appendChild(versionIndicatorNode);
 
         // ------------------------------------------------------------------
         // GRIMOIRE TRACKER

@@ -18,7 +18,4 @@ The EBS (Extension Backend Service) is responsible for storing grimoire data col
 correct broadcaster. 
 
 ## Bookmarklet
-As part of the setup process, the broadcaster adds the bookmarklet to their bookmark bar, which will scrape localStorage data on their clocktower.online browser tab and send it to the backend.
-
-The bookmarklet currently requires the caster to input the secret key by hand each time it is opened. A major QoL improvement will be
-to automatically fill this value in when the bookmarket is generated, and to persist it across sessions.
+As part of the setup process, the broadcaster adds the bookmarklet to their bookmark bar, which will listen on their clocktower.online browser tab and send game data to the backend.
