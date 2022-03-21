@@ -65,15 +65,15 @@
             });
         }
 
-        function sendGrimoire(){
+        function sendGrimoire(state){
             const url = `${EBS_URL}/grimoires/`;
 
             const body = grimoireToJson(state);
 
             wrappedFetch(url, body);
         }
-
-        function sendSession() {
+        
+        function sendSession(state) {
             const url = `${EBS_URL}/sessions/`;
             
             const { session, playerId, isExtensionActive, secretKey } = state;
@@ -191,7 +191,7 @@
             state.secretKey = secretKeyInputNode.value;
             localStorage.setItem(localStorageSecretKey, secretKeyInputNode.value);
 
-            sendSession();
+            sendSession(state);
         });
 
         const secretKeyRow = createConfigMenuRow(secretKeyLabelNode, secretKeyInputNode, secretKeyButtonNode);
@@ -307,6 +307,9 @@
         // But realistically it's not worth a more robust solution
         function isGrimoireStateUpdated (nextState) { return grimoireToJson(state) !== grimoireToJson(nextState); }
 
+        // Test if the session has changed
+        function isNewSession (nextState) { return state.session !== nextState.session; }
+
         const intervalTimer = 5 * 1000;
         let intervalId = -1;
 
@@ -328,25 +331,30 @@
                 edition: nextEdition,
                 roles: nextRoles
             };
-            
+
+            // If the session has changed, send an update
+            if(isNewSession(nextState)) {
+                sendSession(nextState);
+            }
+
             // compare grim to previous state
             if(isGrimoireStateUpdated(nextState)) {
             // if updated, save and update server
                 state = nextState;
 
-                if(shouldSendGrimoire) sendGrimoire();
+                if(shouldSendGrimoire) sendGrimoire(state);
             }
         }
         
         function startWatchingGrimoire () {
             state.isExtensionActive = true;
-            sendSession();
+            sendSession(state);
             intervalId = setInterval(updateGrimoireState, intervalTimer);
         }
     
         function stopWatchingGrimoire() { 
             state.isExtensionActive = false;
-            sendSession();
+            sendSession(state);
             clearInterval(intervalId);
             intervalId = -1;
         }
