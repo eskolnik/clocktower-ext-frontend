@@ -117,7 +117,7 @@
         configMenuNode.id = configMenuNodeId;
         const configMenuStyles = {
             width: "300px",
-            height: "320px",
+            height: "300px",
             background: "rgb(200, 181, 234",
             color: "black",
             fontSize: "16px",
@@ -203,7 +203,7 @@
         // GRIMOIRE TRACKING CONTROLS
         // -----------------------------------------------------------------------------------
         const enableInstructionsNode = document.createElement("p");
-        enableInstructionsNode.innerHTML = "Click the checkbox below to enable sending the grimoire to Twitch. Note that you must be in a live game sesion for this to work.";
+        enableInstructionsNode.innerHTML = "Click the checkbox below to enable sending the grimoire to Twitch.";
 
         configMenuNode.appendChild(enableInstructionsNode);
 
