@@ -21,7 +21,6 @@ twitch.onContext((context, changed) => {
 // Update config once it's available
 twitch.configuration.onChanged(() => {
     if (twitch.configuration.broadcaster) {
-        console.log("initial config", twitch.configuration.broadcaster.content);
         handleReceiveConfigUpdate(twitch.configuration.broadcaster.content);
     }
 });
@@ -47,13 +46,12 @@ twitch.onAuthorized(auth => {
         })
             .then(response => response.json())
             .then(data => {
-                console.log("loaded grimoire data", data);
                 data.isActive && updateOverlayActiveState(data.isActive);
                 data.grimoire && updateGrimoireState(data.grimoire);
             })
             .catch("Error fetching grimoire", console.error); 
     } catch (err) {
-        console.log("error fetching grimoire");
+        console.error("Error fetching grimoire");
     }
 });
 

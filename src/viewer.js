@@ -112,12 +112,16 @@ function createAbilityReminder(player, placement) {
     if(!reminderText) {
         return null;
     }
+    
+    const capitalizedRole = `${role.charAt(0).toUpperCase()}${role.slice(1)}`;
 
     const abilityNode = document.createElement("div");
 
-    const placementClassName = ["left","right"].includes(placement) ? placement : "left";
-    abilityNode.className = `${ABILITY_CLASSNAME} ${ABILITY_CLASSNAME}-${placementClassName}`;
-    abilityNode.innerHTML = reminderText;
+    // determine on which side of the token the ability should appear
+    const floatDirectionClassName = ["left","right"].includes(placement) ? placement : "left";
+
+    abilityNode.className = `${ABILITY_CLASSNAME} ${ABILITY_CLASSNAME}-${floatDirectionClassName}`;
+    abilityNode.innerHTML = `${capitalizedRole}:<br>${reminderText}`;
     
     return abilityNode;
 }
