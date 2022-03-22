@@ -12,10 +12,15 @@
         const localStorageSecretKey = "twitchBotcExtensionSecret";
 
         // Only load one instance of extension at a time
-        if(document.getElementById(extensionNodeId) || localStorage.getItem(localStorageExtensionLoadedKey) === "true") {
+        if(document.getElementById(extensionNodeId) ) {
             return;
+        } else if (localStorage.getItem(localStorageExtensionLoadedKey) === "true") {
+            const confirmation =  window.confirm("Extension already loaded in another tab. Using two instances at once may cause errors. Load extension on this page anyway?");
+            if(!confirmation) {
+                return;
+            }
         }
-
+        
         // Set the extension flag in localstorage to avoid loading the extension twice
         localStorage.setItem(localStorageExtensionLoadedKey, "true");
 
@@ -31,6 +36,7 @@
             bluffs: [],
             edition: {},
             roles: [],
+            fabled: [],
             secretKey: secretKeyFromLocalStorage || "",
             isExtensionActive: false,
             menuVisible: false
@@ -46,6 +52,7 @@
                 bluffs: data.bluffs,
                 edition: data.edition,
                 roles: data.roles,
+                fabled: data.fabled,
                 secretKey: data.secretKey
             });
         }
@@ -300,6 +307,9 @@
         function parseRoles(rolesJson) {
             return JSON.parse(rolesJson);
         }
+        function parseFabled(fabledJson) {
+            return JSON.parse(fabledJson);
+        }
 
         // Test if two grimoire states are equivalent
         // Currently we're just comparing the stringified objects,
@@ -316,11 +326,18 @@
         function updateGrimoireState(shouldSendGrimoire = true) {
             
             const localSession = localStorage.getItem("session");
+            const localEdition = localStorage.getItem("edition");
+            const localPlayers = localStorage.getItem("players");
+            const localRoles = localStorage.getItem("roles");
+            const localBluffs = localStorage.getItem("bluffs");
+            const localFabled = localStorage.getItem("fabled");
             
             const nextSession = localSession ? parseSession(localSession) : {session: null, isHost: false};
-            const nextPlayers = parsePlayers(localStorage.getItem("players"));
-            const nextEdition = parseEdition(localStorage.edition);
-            const nextRoles = localStorage.roles ? parseRoles(localStorage.roles) : [];
+            const nextPlayers = localPlayers ? parsePlayers(localPlayers) : [];
+            const nextEdition = localEdition ? parseEdition(localEdition) : {};
+            const nextRoles = localRoles ? parseRoles(localRoles) : [];
+            const nextBluffs = localBluffs ? parseRoles(localBluffs) : [];
+            const nextFabled = localFabled ? parseFabled(localFabled) : [];
 
             const nextState = {
                 ...state, 
@@ -329,7 +346,9 @@
                 isHost: nextSession.isHost,
                 players: nextPlayers,
                 edition: nextEdition,
-                roles: nextRoles
+                roles: nextRoles,
+                bluffs: nextBluffs,
+                fabled: nextFabled,
             };
 
             // If the session has changed, send an update
@@ -349,6 +368,7 @@
         function startWatchingGrimoire () {
             state.isExtensionActive = true;
             sendSession(state);
+            sendGrimoire(state);
             intervalId = setInterval(updateGrimoireState, intervalTimer);
         }
     
@@ -367,10 +387,10 @@
         window.addEventListener("beforeunload", () => {
             state.isExtensionActive = false;
             
-            const url = EBS_URL + "/session/" + state.secretKey;
-
-            const { session, playerId, players } = state;
-            const body = {session, playerId, isActive: false, players};
+            const url = `${EBS_URL}/sessions`;
+              
+            const { session, playerId, isExtensionActive, secretKey } = state;
+            const body = {session, playerId, isActive: isExtensionActive, secretKey};
 
             navigator.sendBeacon(url, JSON.stringify(body));
 
