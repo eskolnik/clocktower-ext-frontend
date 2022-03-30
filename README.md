@@ -1,4 +1,4 @@
-# Paperweight Clocktower Frontend
+# Clocktower Companion Frontend
 This is the client side of a Twitch extension for streamed games of Blood on the Clocktower.
 
 This extension is designed to be used in conjunction with the unofficial [Townsquare](https://clocktower.online/) web app. 
@@ -7,7 +7,9 @@ This extension is designed to be used in conjunction with the unofficial [Townsq
 * Displays character ability text to viewers when hovering over the corresponding location of the stream.
 
 ## Roadmap
-* synchronize display lag / make lag configurable by streamer
+* Synchronize stream delay
+* Add Demon bluffs and Fabled to the overlay
+* Add a toggleable listing for all roles on the script, similar to what players might see when pressing 'R' in the clocktower app.
 
 ## Acknowledgements and Copyrights
 * [Blood on the Clocktower](https://bloodontheclocktower.com/) is a trademark of Steven Medway and [The Pandemonium Institute](https://www.thepandemoniuminstitute.com/)
