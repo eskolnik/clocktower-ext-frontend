@@ -14,9 +14,9 @@ const DEV_TOKEN_CLASSNAME = "clockToken-dev";
 const ABILITY_CLASSNAME = "ability";
 
 const EBS_URL = "https://www.paperweightclocktower.live/api/v1";
-const EBS_GRIMOIRE = "grimoires";
-const EBS_CASTER = "broadcasters";
-const EBS_GAME_SESSION = "game_sessions";
+const EBS_GRIMOIRE_PATH = "grimoires";
+const EBS_CASTER_PATH = "broadcasters";
+const EBS_GAME_SESSION_PATH = "game_sessions";
 
 const SECRET_LENGTH = 32;
 
@@ -33,8 +33,8 @@ export default {
     TOKEN_CLASSNAME,
     ABILITY_CLASSNAME,
     EBS_URL,
-    EBS_GRIMOIRE,
-    EBS_CASTER,
+    EBS_GRIMOIRE_PATH,
+    EBS_CASTER_PATH,
     SECRET_LENGTH,
     PUBSUB_SEGMENT_VERSION
 };
@@ -51,9 +51,9 @@ export {
     DEV_TOKEN_CLASSNAME,
     ABILITY_CLASSNAME,
     EBS_URL,
-    EBS_GRIMOIRE,
-    EBS_CASTER,
-    EBS_GAME_SESSION,
+    EBS_GRIMOIRE_PATH,
+    EBS_CASTER_PATH,
+    EBS_GAME_SESSION_PATH,
     SECRET_LENGTH,
     PUBSUB_SEGMENT_VERSION
 };

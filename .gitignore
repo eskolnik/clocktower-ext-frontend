@@ -9,3 +9,5 @@ yarn-error.log
 .cache
 dist
 *.DS_Store
+
+artifacts

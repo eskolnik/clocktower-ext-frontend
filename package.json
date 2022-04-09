@@ -11,9 +11,11 @@
     "sass": "sass -w sass:stylesheets",
     "build-bookmarklet": "sh ./src/scripts/minify_bookmarklet.sh",
     "dev": "yarn build-bookmarklet; NODE_ENV=development parcel src/config.html src/video_overlay.html --port 8080",
-    "zip": "zip -j clocktower-ext-frontend.zip dist/*",
+    "zip": "zip -j artifacts/clocktower_companion_bundle.zip dist/*",
+    "archive": "git archive --format=zip --output=./artifacts/clocktower_companion_archive.zip HEAD",
+    "prebuild": "rm -rf dist/* artifacts/*",
     "build": "yarn build-bookmarklet; parcel build src/config.html src/video_overlay.html --public-url '.'",
-    "postbuild": "yarn zip"
+    "postbuild": "yarn zip; yarn archive"
   },
   "proxy": "http://localhost:3000",
   "author": "ezraskolnik@gmail.com",

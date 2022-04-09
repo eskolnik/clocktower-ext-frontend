@@ -1,4 +1,4 @@
-import { EBS_GRIMOIRE, EBS_URL } from "./utils/constants.js";
+import { EBS_GRIMOIRE_PATH, EBS_URL } from "./utils/constants.js";
 import { 
     handleReceiveConfigUpdate, 
     updateConfigState, 
@@ -30,7 +30,7 @@ twitch.onAuthorized(auth => {
     channelId = auth.channelId;
     jwt = auth.token;
 
-    const ebsEndpointUrl = `${EBS_URL}/${EBS_GRIMOIRE}/${channelId}`;
+    const ebsEndpointUrl = `${EBS_URL}/${EBS_GRIMOIRE_PATH}/${channelId}`;
     try {
         fetch(ebsEndpointUrl, {
             method: "GET",

@@ -5,7 +5,7 @@ import {
     updateDisplayResolution,
     getConfigState,
 } from "./viewer.js";
-import { EBS_CASTER, EBS_URL, EBS_GAME_SESSION, PUBSUB_SEGMENT_VERSION, SECRET_LENGTH, COORDINATE_INCREMENT } from "./utils/constants.js";
+import { EBS_CASTER_PATH, EBS_URL, PUBSUB_SEGMENT_VERSION, SECRET_LENGTH, COORDINATE_INCREMENT } from "./utils/constants.js";
 import fs from "fs";
 
 let twitch; 
@@ -94,7 +94,7 @@ function initializeTwitchDataHandlers(twitch) {
         jwt = auth.token;
 
         // fetch secretKey from backend if exists
-        const ebsEndpointUrl = `${EBS_URL}/${EBS_CASTER}/${channelId}`;
+        const ebsEndpointUrl = `${EBS_URL}/${EBS_CASTER_PATH}/${channelId}`;
         fetch( ebsEndpointUrl, {
             method: "GET",
             mode: "cors",
@@ -121,7 +121,7 @@ if(twitch) initializeTwitchDataHandlers(twitch);
 
 function sendSecretKey(secretKey) {
 // Save secret key to backend
-    const ebsEndpointUrl = `${EBS_URL}/${EBS_CASTER}`;
+    const ebsEndpointUrl = `${EBS_URL}/${EBS_CASTER_PATH}`;
     const body = JSON.stringify({secretKey, channelId});
 
     fetch(ebsEndpointUrl, {

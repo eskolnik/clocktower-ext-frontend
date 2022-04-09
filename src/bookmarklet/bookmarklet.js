@@ -1,3 +1,6 @@
+// BOOKMARKLET
+// This JS code is meant to be executed as a bookmarklet link against a clocktower.online browser tab. 
+// As such, it should be prepended with "javascript:" 
 // javascript: 
 (
     () => {
