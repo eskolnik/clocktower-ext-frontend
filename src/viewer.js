@@ -103,17 +103,19 @@ function moveCenter(x, y) {
  * @returns {Element} ability node
  */
 function createAbilityReminder(player, placement) {
-    if(!player) {
+    if(!player || player.role === "") {
         return null;
     }
 
-    const role = player.role;
-    const reminderText = getRoleAbility(role);
-    if(!reminderText) {
+    const role = getRoleById(player.role);
+    const reminderText = role.ability;
+    const roleName = role.name;
+
+    if(!reminderText || !roleName) {
         return null;
     }
     
-    const capitalizedRole = `${role.charAt(0).toUpperCase()}${role.slice(1)}`;
+    // const capitalizedRole = `${role.charAt(0).toUpperCase()}${role.slice(1)}`;
 
     const abilityNode = document.createElement("div");
 
@@ -121,7 +123,7 @@ function createAbilityReminder(player, placement) {
     const floatDirectionClassName = ["left","right"].includes(placement) ? placement : "left";
 
     abilityNode.className = `${ABILITY_CLASSNAME} ${ABILITY_CLASSNAME}-${floatDirectionClassName}`;
-    abilityNode.innerHTML = `${capitalizedRole}:<br>${reminderText}`;
+    abilityNode.innerHTML = `${roleName}:<br>${reminderText}`;
     
     return abilityNode;
 }
@@ -129,16 +131,16 @@ function createAbilityReminder(player, placement) {
 /**
  * Get a character ability
  * 
- * @param {String} roleName 
+ * @param {String} roleId the lowercase role identifier, e.g. "snakecharmer"
  * @returns {String} Ability description
  */
-function getRoleAbility(roleName) {
+function getRoleById(roleId) {
     // Look for role in base roles first, then in custom roles
-    const role = baseRoles.find(r => r.id === roleName) || state.grimoire.roles.find(r => r.id === roleName);
+    const role = baseRoles.find(r => r.id === roleId) || state.grimoire.roles.find(r => r.id === roleId);
     if (!role) {
         return false;
     }
-    return role.ability;
+    return role;
 }
 
 function refreshDisplay() {
