@@ -106,18 +106,30 @@
             position:  "absolute",
             width:"40px",
             height:"40px",
-            paddingTop:"11px",
+            border: "3px solid #6441a4",
+            borderRadius: "25%",
+            background: "white",
             transform:"translateX(calc(-100% - 3px)",
+            cursor: "pointer"
         };
         
         assignStyles(extensionNode, extensionStyles);
         
-        const svgNode = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-        svgNode.setAttribute("width", "40");
-        svgNode.setAttribute("height", "40");
-        svgNode.setAttribute("viewBox", "0 0 100 100");
-        svgNode.innerHTML = "<path d=\"M5.7 0L1.4 10.985V55.88h15.284V64h8.597l8.12-8.12h12.418l16.716-16.716V0H5.7zm51.104 36.3L47.25 45.85H31.967l-8.12 8.12v-8.12H10.952V5.73h45.85V36.3zM47.25 16.716v16.716h-5.73V16.716h5.73zm-15.284 0v16.716h-5.73V16.716h5.73z\" fill=\"#6441a4\" fill-rule=\"evenodd\"></path>";
-        extensionNode.appendChild(svgNode);
+        // const iconNode = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        // iconNode.setAttribute("width", "40");
+        // iconNode.setAttribute("height", "40");
+        // iconNode.setAttribute("viewBox", "0 0 100 100");
+        // iconNode.innerHTML = "<path d=\"M5.7 0L1.4 10.985V55.88h15.284V64h8.597l8.12-8.12h12.418l16.716-16.716V0H5.7zm51.104 36.3L47.25 45.85H31.967l-8.12 8.12v-8.12H10.952V5.73h45.85V36.3zM47.25 16.716v16.716h-5.73V16.716h5.73zm-15.284 0v16.716h-5.73V16.716h5.73z\" fill=\"#6441a4\" fill-rule=\"evenodd\"></path>";
+        const iconNode = document.createElement("div");
+        iconNode.innerHTML="CC";
+        const iconStyles = {
+            color: "#6441a4",
+            fontSize: "larger",
+            fontWeight: "bold",
+            userSelect: "none"
+        };
+        assignStyles(iconNode, iconStyles);
+        extensionNode.appendChild(iconNode);
    
         // -------------------------------------------------------------------------
         //  CONFIG MENU
@@ -128,7 +140,7 @@
         const configMenuStyles = {
             width: "300px",
             height: "300px",
-            background: "rgb(200, 181, 234",
+            background: "rgb(200, 181, 234)",
             color: "black",
             fontSize: "16px",
             overflow: "wrap",
@@ -382,7 +394,7 @@
             intervalId = -1;
         }
 
-        svgNode.addEventListener("click", () => {
+        iconNode.addEventListener("click", () => {
             toggleConfigMenu();
         });
 
